@@ -1,0 +1,34 @@
+.home {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  padding: 24px;
+  font-family: var(--font-family-sans, sans-serif);
+}
+
+.home__header {
+  text-align: center;
+}
+
+.home__title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 8px;
+  color: var(--schemes-brand-brand-primary, #2dba61);
+}
+
+.home__subtitle {
+  font-size: 1rem;
+  color: #555;
+  margin: 0;
+}
+
+.home__actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
