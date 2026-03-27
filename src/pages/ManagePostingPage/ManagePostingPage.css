@@ -1,0 +1,216 @@
+/* ManagePostingPage — Figma frame 164:21996 */
+
+.manage-page {
+  min-height: 100vh;
+  background: var(--state-layers-background-color-main-bg-primary-alt);
+}
+
+.manage-page__content {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ── Toolbar ── */
+.manage-page__toolbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.manage-page__heading {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* "Admin Bulletin Overview" — 24px Bold gray-900 */
+.manage-page__title {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--state-layers-text-color-main-text-primary);
+  margin: 0;
+  text-align: left;
+}
+
+/* subtitle — 16px Regular gray-500 */
+.manage-page__subtitle {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--state-layers-foreground-color-main-fg-tertiary);
+  margin: 0;
+  text-align: left;
+}
+
+/* ── Table container ── */
+.manage-page__table-wrap {
+  background: var(--state-layers-background-color-main-bg-primary);
+  border: 1px solid var(--state-layers-border-color-main-border-primary);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* ── Table ── */
+.manage-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+/* ── Header row: 73px (top 32px + bottom 41px) ── */
+.manage-table__header-row {
+  background: var(--state-layers-background-color-main-bg-primary);
+  border-bottom: 1px solid var(--state-layers-border-color-main-border-secondary);
+}
+
+.manage-table__th {
+  padding: 0;
+  text-align: left;
+  vertical-align: top;
+}
+
+/* Column widths */
+.manage-table__th--title  { width: auto; }
+.manage-table__th--date   { width: 200px; }
+.manage-table__th--action { width: 160px; }
+
+/* Top row inside header: label + sort/filter icons */
+.manage-table__th-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 8px 4px 8px;
+  gap: 8px;
+}
+
+/* Column label — 14px SemiBold gray-900 */
+.manage-table__th-label {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--state-layers-text-color-main-text-primary);
+  white-space: nowrap;
+}
+
+/* Sort/filter icon buttons group */
+.manage-table__th-icons {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+/* 20×20 icon button */
+.manage-table__icon-btn {
+  width: 20px;
+  height: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--state-layers-foreground-color-main-fg-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  padding: 0;
+  transition: background 0.15s, color 0.15s;
+}
+.manage-table__icon-btn:hover {
+  background: var(--state-layers-background-color-main-bg-primary-hover);
+  color: var(--state-layers-text-color-main-text-primary);
+}
+
+/* Search row inside header */
+.manage-table__th-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px 8px 8px;
+  border-top: 1px solid var(--state-layers-border-color-main-border-secondary);
+}
+
+.manage-table__search-icon {
+  color: var(--state-layers-foreground-color-main-fg-tertiary);
+  flex-shrink: 0;
+}
+
+.manage-table__search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--state-layers-text-color-main-text-primary);
+  font-family: inherit;
+  min-width: 0;
+}
+.manage-table__search-input::placeholder {
+  color: var(--state-layers-foreground-color-main-fg-tertiary);
+}
+
+/* ── Body rows: 52px ── */
+.manage-table__row {
+  border-bottom: 1px solid var(--state-layers-border-color-main-border-secondary);
+}
+.manage-table__row:last-child {
+  border-bottom: none;
+}
+
+.manage-table__td {
+  padding: 8px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--state-layers-text-color-main-text-secondary);
+  vertical-align: middle;
+  height: 52px;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.manage-table__td--title {
+  font-weight: 400;
+  color: var(--state-layers-text-color-main-text-primary);
+}
+
+/* ── Action cell: 3 × 40×40 icon buttons ── */
+.manage-table__actions {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.manage-table__action-btn {
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--state-layers-foreground-color-main-fg-tertiary);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+.manage-table__action-btn:hover {
+  background: var(--state-layers-background-color-main-bg-primary-hover);
+  color: var(--state-layers-text-color-main-text-primary);
+}
+.manage-table__action-btn--delete:hover {
+  background: var(--schemes-error-error-50, #fef2f2);
+  color: var(--schemes-error-error-500, #ef4444);
+}
+
+.manage-table__empty {
+  padding: 32px;
+  text-align: center;
+  color: var(--state-layers-foreground-color-main-fg-tertiary);
+  font-size: 14px;
+}

@@ -1,0 +1,171 @@
+/* NewsCard — Figma component 162:19846
+   VERTICAL | pad 24 | gap 16 | r:16
+   fill: bg-primary (white) | stroke: border-primary (gray-300) 1px
+   shadow: 0 1px 4px 1px rgba(100,100,110,0.08) */
+
+.news-card {
+  background: var(--state-layers-background-color-main-bg-primary);
+  border: 1px solid var(--state-layers-border-color-main-border-primary);
+  border-radius: 16px;
+  box-shadow: 0 1px 4px 1px rgba(100, 100, 110, 0.08);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── Header row ── */
+.news-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.news-card__author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* 40×40 circle avatar */
+.news-card__avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--state-layers-background-color-brand-bg-brand-solid);
+  color: var(--state-layers-text-color-main-text-primary-on-brand);
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.news-card__author-info {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Admin User — 14px SemiBold gray-900, line-height 140% */
+.news-card__author-name {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--state-layers-text-color-main-text-primary);
+  text-align: left;
+}
+
+/* Admin — 14px Regular gray-500, line-height 140% */
+.news-card__author-role {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--state-layers-foreground-color-main-fg-tertiary);
+  text-align: left;
+}
+
+/* 3-dot menu wrap — relative for dropdown positioning */
+.news-card__menu-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* 3-dot menu — 36×36 circle */
+.news-card__menu-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--state-layers-foreground-color-main-fg-quaternary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+.news-card__menu-btn:hover {
+  background: var(--state-layers-background-color-main-bg-primary-hover);
+  color: var(--state-layers-foreground-color-main-fg-tertiary);
+}
+
+/* Dropdown menu */
+.news-card__dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  background: var(--state-layers-background-color-main-bg-primary);
+  border: 1px solid var(--state-layers-border-color-main-border-primary);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  min-width: 120px;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.news-card__dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--state-layers-text-color-main-text-primary);
+  text-align: left;
+  transition: background 0.15s;
+}
+.news-card__dropdown-item:hover {
+  background: var(--state-layers-background-color-main-bg-primary-hover);
+}
+.news-card__dropdown-item--delete {
+  color: var(--schemes-error-error-500, #ef4444);
+}
+.news-card__dropdown-item--delete:hover {
+  background: var(--schemes-error-error-50, #fef2f2);
+}
+
+/* ── Body ── */
+.news-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Title — 20px SemiBold gray-900, line-height 140% */
+.news-card__title {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--state-layers-text-color-main-text-primary);
+  margin: 0;
+  text-align: left;
+}
+
+/* Body text — 14px Regular gray-700, line-height 140% */
+.news-card__text {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--state-layers-text-color-main-text-secondary);
+  margin: 0;
+  text-align: left;
+}
+
+/* Image — fill width, 400px height, r:8 */
+.news-card__image {
+  border-radius: 8px;
+  overflow: hidden;
+  width: 100%;
+  height: 400px;
+}
+.news-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}

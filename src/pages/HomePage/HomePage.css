@@ -1,0 +1,46 @@
+/* HomePage — Figma Home frame (150:18497) */
+
+.home-page {
+  min-height: 100vh;
+  background: var(--state-layers-background-color-main-bg-primary-alt);
+}
+
+.home-page__main {
+  box-sizing: border-box;
+}
+
+/* HORIZONTAL layout: feed takes remaining, sidebar fixed 320px */
+.home-page__layout {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+/* Feed — takes all remaining space */
+.home-page__feed {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Sidebar — fixed 320px, never shrinks */
+.home-page__sidebar {
+  width: 320px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Responsive: below 768px stack vertically, sidebar below feed */
+@media (max-width: 768px) {
+  .home-page__layout {
+    flex-direction: column;
+  }
+
+  .home-page__sidebar {
+    width: 100%;
+  }
+}

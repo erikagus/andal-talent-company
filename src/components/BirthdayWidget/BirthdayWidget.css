@@ -1,0 +1,142 @@
+/* BirthdayWidget — Figma component 164:21026
+   VERTICAL | pad 24 | gap 24 | r:16
+   fill: bg-primary (white) | stroke: border-primary (gray-300) 1px
+   shadow: 0 1px 4px 1px rgba(100,100,110,0.08) */
+
+.bday-widget {
+  background: var(--state-layers-background-color-main-bg-primary);
+  border: 1px solid var(--state-layers-border-color-main-border-primary);
+  border-radius: 16px;
+  box-shadow: 0 1px 4px 1px rgba(100, 100, 110, 0.08);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ── Header: cake icon + "Birthdays" ── */
+.bday-widget__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bday-widget__cake {
+  flex-shrink: 0;
+}
+
+/* "Birthdays" — 20px Bold gray-900, line-height 120% */
+.bday-widget__title {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--state-layers-text-color-main-text-primary);
+  text-align: left;
+}
+
+/* ── List ── */
+.bday-widget__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.bday-widget__item {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Person row — HORIZONTAL gap:16 */
+.bday-widget__row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+/* 56×56 avatar wrap — relative for 🎉 badge */
+.bday-widget__avatar-wrap {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+}
+
+/* 56×56 circle — brand bg, white text */
+.bday-widget__avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--state-layers-background-color-brand-bg-brand-solid);
+  color: var(--state-layers-text-color-main-text-primary-on-brand);
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bday-widget__avatar--img {
+  object-fit: cover;
+}
+
+/* 🎉 badge — bottom-right overlap */
+.bday-widget__badge {
+  position: absolute;
+  bottom: -2px;
+  right: -4px;
+  font-size: 16px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* Profile column */
+.bday-widget__profile {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.bday-widget__info {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Name — 16px SemiBold gray-900, line-height 140% */
+.bday-widget__name {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--state-layers-text-color-main-text-primary);
+  text-align: left;
+}
+
+/* Position — 14px Regular gray-500, line-height 140% */
+.bday-widget__position {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--state-layers-foreground-color-main-fg-tertiary);
+  text-align: left;
+}
+
+/* Date — 14px SemiBold brand-primary, line-height 21px */
+.bday-widget__date {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 21px;
+  color: var(--state-layers-foreground-color-brand-fg-brand-primary);
+  text-align: left;
+}
+
+/* Divider — border-secondary (gray-200 in Figma token 4097:3) */
+.bday-widget__divider {
+  border: none;
+  border-top: 1px solid var(--state-layers-border-color-main-border-primary);
+  margin: 0;
+}
