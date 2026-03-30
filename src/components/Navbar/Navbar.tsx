@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { House, Note, SignOut, Bell } from '@phosphor-icons/react'
+import { House, Note, SignOut } from '@phosphor-icons/react'
 import { Button } from '../../design-system'
 import { useAuth } from '../../context/AuthContext'
 import LoginModal from '../LoginModal/LoginModal'
@@ -42,11 +42,6 @@ export default function Navbar() {
           <div className="navbar__right">
             {currentUser ? (
               <>
-                {/* Notification bell */}
-                <button className="navbar__icon-btn" aria-label="Notifications">
-                  <Bell size={24} />
-                </button>
-
                 {/* User info */}
                 <div className="navbar__user">
                   <div className="navbar__user-info">
