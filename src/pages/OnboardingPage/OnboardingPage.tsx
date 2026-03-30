@@ -5,7 +5,6 @@ import { Laptop, Keyboard, Headphones, IdentificationBadge } from '@phosphor-ico
 import { Navbar } from '../../components'
 import { useAuth } from '../../context/AuthContext'
 import confettiRiv from '../../assets/confetti.riv'
-import avatarImg from '../../assets/portrait-asian-teen-boy.jpg'
 import './OnboardingPage.css'
 
 /* ── Equipment data ────────────────────────────────────────────────── */
@@ -95,11 +94,17 @@ export default function OnboardingPage() {
             {/* Header: avatar + title + subtitle */}
             <div className="ob-modal__header">
               <div className="ob-modal__avatar-wrap">
-                <img
-                  className="ob-modal__avatar"
-                  src={currentUser?.avatar_url ?? avatarImg}
-                  alt={currentUser?.name ?? 'User avatar'}
-                />
+                {currentUser?.avatar_url ? (
+                  <img
+                    className="ob-modal__avatar"
+                    src={currentUser.avatar_url}
+                    alt={currentUser.name}
+                  />
+                ) : (
+                  <div className="ob-modal__avatar" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--state-layers-background-color-brand-bg-brand-solid)', color: 'var(--schemes-base-white)', fontSize: 'var(--font-size-xl)', fontWeight: 'var(--font-weight-bold)' }}>
+                    {currentUser?.name?.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase() ?? '?'}
+                  </div>
+                )}
                 <svg className="ob-modal__spinner" viewBox="0 0 100 100" aria-hidden="true">
                   {/*
                     Outer wavy shape: 8 scallops via quadratic beziers
