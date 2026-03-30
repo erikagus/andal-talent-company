@@ -96,10 +96,10 @@ export default function OnboardingPage() {
             <div className="ob-modal__header">
               <div className="ob-modal__avatar-wrap">
                 <img
-                className="ob-modal__avatar"
-                src={avatarImg}
-                alt={currentUser?.name ?? 'User avatar'}
-              />
+                  className="ob-modal__avatar"
+                  src={currentUser?.avatar_url ?? avatarImg}
+                  alt={currentUser?.name ?? 'User avatar'}
+                />
                 <svg className="ob-modal__spinner" viewBox="0 0 100 100" aria-hidden="true">
                   {/*
                     Outer wavy shape: 8 scallops via quadratic beziers

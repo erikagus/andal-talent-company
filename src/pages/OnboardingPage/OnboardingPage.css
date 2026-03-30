@@ -83,8 +83,10 @@
   border-radius: 50%;
   border: 1px solid var(--state-layers-border-color-main-border-primary);
   object-fit: cover;
+  object-position: center top;
   display: block;
   flex-shrink: 0;
+  overflow: hidden;
 }
 
 /* Material 3 wavy rotating ring — sits over avatar, rotates continuously */
