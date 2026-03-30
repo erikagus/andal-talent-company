@@ -242,12 +242,14 @@ export default function CalendarPage() {
             <div className="cal-modal__avatar-wrap">
               {modal.type === 'birthday' && modal.person ? (
                 modal.person.avatar_url
-                  ? <img
-                      className="cal-modal__avatar cal-modal__avatar--img"
-                      src={modal.person.avatar_url}
-                      alt={modal.person.name}
-                      onError={(e) => console.log('[CalendarPage] modal img error:', e, modal.person?.avatar_url)}
-                    />
+                  ? <div style={{ width: '96px', height: '96px', borderRadius: '50%', overflow: 'hidden', margin: '0 auto' }}>
+                      <img
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
+                        src={modal.person.avatar_url}
+                        alt={modal.person.name}
+                        onError={(e) => console.log('[CalendarPage] modal img error:', e, modal.person?.avatar_url)}
+                      />
+                    </div>
                   : <div className="cal-modal__avatar">
                       {initials(modal.person.name)}
                     </div>
