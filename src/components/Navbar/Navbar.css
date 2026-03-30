@@ -87,9 +87,11 @@
 
 /* 40×40 circle avatar */
 .navbar__avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50% !important;
+  overflow: hidden !important;
+  flex-shrink: 0 !important;
   background: var(--state-layers-background-color-brand-bg-brand-solid);
   color: var(--state-layers-text-color-main-text-primary-on-brand);
   font-size: var(--font-size-sm);
@@ -97,17 +99,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  overflow: hidden;
 }
 
 /* Image avatar — circle-cropped portrait */
 .navbar__avatar--img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center top !important;
+  display: block !important;
   background: none;
   border: 1px solid var(--state-layers-border-color-main-border-primary);
 }
