@@ -56,11 +56,13 @@ export default function Navbar() {
                     </span>
                   </div>
                   {currentUser.avatar_url ? (
-                    <img
-                      className="navbar__avatar navbar__avatar--img"
-                      src={currentUser.avatar_url}
-                      alt={currentUser.name}
-                    />
+                    <div style={{ width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', flexShrink: 0 }}>
+                      <img
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
+                        src={currentUser.avatar_url}
+                        alt={currentUser.name}
+                      />
+                    </div>
                   ) : (
                     <div className="navbar__avatar">{initials}</div>
                   )}
