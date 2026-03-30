@@ -1,0 +1,301 @@
+/*
+ * Chip — Andal Design System
+ * Figma nodeIds: Input 150:79913 · Filter 150:79303 · Suggestion 150:79099 · Assist 150:79722
+ *
+ * Measurements extracted directly from Figma component JSON:
+ *
+ *   height:        32px
+ *   border-radius: 8px  (avatar configs: 30px)
+ *   border:        1px solid (INSIDE stroke alignment)
+ *   font:          14px / 500 / 20px line-height
+ *   gap:           8px between flex children
+ *
+ * Padding per kind (Figma state-layer measurements):
+ *   Input  — label only:               6px 12px
+ *   Input  — with leading icon:        6px 12px 6px 8px
+ *   Input  — with leading icon+close:  6px 8px
+ *   Input  — with avatar:              4px 12px 4px 4px
+ *   Input  — with avatar+close:        4px 8px 4px 4px
+ *   Filter/Suggestion/Assist — label only:      6px 16px
+ *   Filter/Suggestion/Assist — with leading:    6px 16px 6px 8px
+ *   Filter — with trailing icon:               6px 8px 6px 16px
+ *   Filter — with leading+trailing:            6px 8px
+ *   Assist — with icon:                         6px 16px 6px 8px
+ *
+ * State backgrounds (from Figma variable IDs mapped to tokens.css):
+ *   Default enabled:              transparent fill  +  gray-300 border  (#d0d5dd)
+ *   Hover (input/filter/assist):  gray-100 fill     +  gray-300 border  (#f2f4f7)
+ *   Hover (suggestion only):      gray-50 fill      +  gray-300 border  (#f9fafb)
+ *   Focused:                      gray-100 fill     +  gray-400 border  (#98a2b3)
+ *   Selected:                     brand-25 fill     +  transparent border (#e5f3ff)
+ *   Disabled:                     transparent fill  +  gray-100 border  (#f2f4f7)
+ *   Elevated (filter/suggestion): white fill + shadow
+ *   Elevated (assist):            gray-100 fill + shadow
+ *   Shadow: 0 1px 2px rgba(0,0,0,.30), 0 1px 3px 1px rgba(0,0,0,.15)
+ */
+
+/* ── Base ─────────────────────────────────────────────────────────────── */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--schemes-gray-light-gray-700);
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  line-height: 20px;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease,
+    color 150ms ease;
+  outline: none;
+}
+
+/* ── Padding per kind ────────────────────────────────────────────────── */
+
+/* Input chip: tighter horizontal padding */
+.chip[data-kind='input'] {
+  padding: 6px 12px;
+}
+
+/* Filter, Suggestion, Assist: wider horizontal padding */
+.chip[data-kind='filter'],
+.chip[data-kind='suggestion'],
+.chip[data-kind='assist'] {
+  padding: 6px 16px;
+}
+
+/* Leading icon present: reduce left padding to 8px (all kinds) */
+.chip[data-has-leading] {
+  padding-left: 8px;
+}
+
+/* Avatar: reduce both vertical and left padding */
+.chip[data-avatar] {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 4px;
+  border-radius: 30px; /* avatar chip is more rounded to complement circular avatar */
+}
+
+/* Trailing element present: reduce right padding to 8px */
+.chip[data-has-trailing] {
+  padding-right: 8px;
+}
+
+/* ── Style: Outlined ─────────────────────────────────────────────────── */
+/* Input chips are always outlined (no chipStyle prop applies) */
+
+.chip[data-chip-style='outlined'],
+.chip[data-kind='input'] {
+  border-color: var(--schemes-gray-light-gray-300);
+}
+
+/* ── Style: Elevated ─────────────────────────────────────────────────── */
+
+/* Filter + Suggestion elevated: white fill */
+.chip[data-kind='filter'][data-chip-style='elevated'],
+.chip[data-kind='suggestion'][data-chip-style='elevated'] {
+  background: var(--schemes-base-white);
+  border-color: transparent;
+  box-shadow:
+    0 1px 2px 0 rgba(0, 0, 0, 0.30),
+    0 1px 3px 1px rgba(0, 0, 0, 0.15);
+}
+
+/* Assist elevated: gray-100 fill (Figma: VariableID:144:64023 = #f2f4f7) */
+.chip[data-kind='assist'][data-chip-style='elevated'] {
+  background: var(--schemes-gray-light-gray-100);
+  border-color: transparent;
+  box-shadow:
+    0 1px 2px 0 rgba(0, 0, 0, 0.30),
+    0 1px 3px 1px rgba(0, 0, 0, 0.15);
+}
+
+/* ── Hover ───────────────────────────────────────────────────────────── */
+/* Figma: hover fills the state-layer with a tint while keeping the border */
+
+/* Input, Filter, Assist hover → gray-100 (#f2f4f7, VariableID:144:64023) */
+.chip[data-kind='input']:hover:not([data-disabled]),
+.chip[data-kind='filter']:hover:not([data-disabled]),
+.chip[data-kind='assist']:hover:not([data-disabled]) {
+  background: var(--schemes-gray-light-gray-100);
+}
+
+/* Suggestion hover → gray-50 (#f9fafb, VariableID:144:64022) — different tint */
+.chip[data-kind='suggestion']:hover:not([data-disabled]) {
+  background: var(--schemes-gray-light-gray-50);
+}
+
+/* Selected hover: keep brand-25 fill (Figma: selected hover = same as selected enabled) */
+.chip[data-selected]:hover:not([data-disabled]) {
+  background: var(--schemes-brand-brand-25);
+}
+
+/* ── Focused ─────────────────────────────────────────────────────────── */
+/* Figma focused state: gray-100 fill + gray-400 border (#98a2b3) */
+
+.chip:focus-visible {
+  background: var(--schemes-gray-light-gray-100);
+  border-color: var(--schemes-gray-light-gray-400);
+  outline: none; /* border change IS the focus indicator */
+}
+
+/* Focused + outlined keeps border visible at gray-400 */
+.chip[data-chip-style='outlined']:focus-visible,
+.chip[data-kind='input']:focus-visible {
+  border-color: var(--schemes-gray-light-gray-400);
+}
+
+/* ── Selected ────────────────────────────────────────────────────────── */
+/* Figma: selected = brand-25 fill, NO border (transparent) */
+
+.chip[data-selected] {
+  background: var(--schemes-brand-brand-25);
+  border-color: transparent;
+  color: var(--schemes-brand-brand-700);
+}
+
+/* Elevated selected: keep the shadow */
+.chip[data-selected][data-chip-style='elevated'] {
+  box-shadow:
+    0 1px 2px 0 rgba(0, 0, 0, 0.30),
+    0 1px 3px 1px rgba(0, 0, 0, 0.15);
+}
+
+/* ── Disabled ────────────────────────────────────────────────────────── */
+/* Figma: disabled = transparent fill + gray-100 border (NOT opacity reduction) */
+/* Text and icon use gray-300 */
+
+.chip[data-disabled] {
+  background: transparent;
+  border-color: var(--schemes-gray-light-gray-100);
+  color: var(--schemes-gray-light-gray-300);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Elevated disabled: no shadow */
+.chip[data-disabled][data-chip-style='elevated'] {
+  box-shadow: none;
+}
+
+/* Disabled selected: Figma shows no fill and no border */
+.chip[data-disabled][data-selected] {
+  background: transparent;
+  border-color: transparent;
+}
+
+/* Re-enable pointer events on the remove button so it stays clickable */
+.chip[data-disabled] .chip__remove {
+  pointer-events: auto;
+}
+
+/* ── Label ───────────────────────────────────────────────────────────── */
+
+.chip__label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Icon ────────────────────────────────────────────────────────────── */
+
+.chip__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--schemes-gray-light-gray-500);
+}
+
+.chip[data-selected] .chip__icon {
+  color: var(--schemes-brand-brand-500);
+}
+
+.chip[data-disabled] .chip__icon {
+  color: var(--schemes-gray-light-gray-300);
+}
+
+/* ── Avatar (Input chip) ─────────────────────────────────────────────── */
+
+.chip__avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+/* ── Favicon (Assist chip) ───────────────────────────────────────────── */
+
+.chip__favicon {
+  width: 18px;
+  height: 18px;
+  border-radius: var(--radius-2xs);
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+/* ── Branded icon (Assist chip) ──────────────────────────────────────── */
+
+.chip__branded-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+}
+
+/* ── Remove button (Input chip × close) ──────────────────────────────── */
+
+.chip__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--schemes-gray-light-gray-400);
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  transition: background 150ms ease, color 150ms ease;
+}
+
+.chip__remove:hover:not(:disabled) {
+  background: var(--schemes-gray-light-gray-200);
+  color: var(--schemes-gray-light-gray-700);
+}
+
+.chip[data-selected] .chip__remove {
+  color: var(--schemes-brand-brand-500);
+}
+
+.chip[data-selected] .chip__remove:hover:not(:disabled) {
+  background: var(--schemes-brand-brand-50);
+  color: var(--schemes-brand-brand-700);
+}
+
+.chip[data-disabled] .chip__remove {
+  color: var(--schemes-gray-light-gray-300);
+  cursor: not-allowed;
+}
+
+.chip__remove:focus-visible {
+  outline: 2px solid var(--schemes-brand-brand-500);
+  outline-offset: 1px;
+}

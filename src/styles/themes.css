@@ -1,0 +1,61 @@
+/*
+ * Brand theme overrides — Andal Design System
+ *
+ * Only the brand color scale (brand-25 → brand-950) differs per brand.
+ * All semantic tokens (state-layers) reference these primitives via var(),
+ * so overriding the 12 primitives here is sufficient to re-theme everything.
+ *
+ * Applied via [data-theme] on <html> — set by the Storybook theme decorator.
+ * Source: Figma "Primitives" variable collection, all 4 modes.
+ */
+
+/* ── Andal SAIS (default / blue) ────────────────────────────────────────
+   Already set in tokens.css :root — no override needed.               */
+
+/* ── Andal Kharisma (green) ─────────────────────────────────────────── */
+[data-theme='andal-kharisma'] {
+  --schemes-brand-brand-25:  #F8FCFA;
+  --schemes-brand-brand-50:  #F5FAF7;
+  --schemes-brand-brand-100: #DCF2E4;
+  --schemes-brand-brand-200: #AAE2BE;
+  --schemes-brand-brand-300: #78D299;
+  --schemes-brand-brand-400: #46C273;
+  --schemes-brand-brand-500: #2DBA61;
+  --schemes-brand-brand-600: #28A455;
+  --schemes-brand-brand-700: #24934C;
+  --schemes-brand-brand-800: #208344;
+  --schemes-brand-brand-900: #1B723B;
+  --schemes-brand-brand-950: #176132;
+}
+
+/* ── Andal Performance (teal) ───────────────────────────────────────── */
+[data-theme='andal-performance'] {
+  --schemes-brand-brand-25:  #DCF9F9;
+  --schemes-brand-brand-50:  #CAF6F6;
+  --schemes-brand-brand-100: #A7F1EF;
+  --schemes-brand-brand-200: #84EBE9;
+  --schemes-brand-brand-300: #61E5E3;
+  --schemes-brand-brand-400: #50E2E0;
+  --schemes-brand-brand-500: #2CDDDA;
+  --schemes-brand-brand-600: #1FC1BE;
+  --schemes-brand-brand-700: #1A9E9C;
+  --schemes-brand-brand-800: #178C8A;
+  --schemes-brand-brand-900: #116968;
+  --schemes-brand-brand-950: #0B4645;
+}
+
+/* ── Andal Talent (purple) ──────────────────────────────────────────── */
+[data-theme='andal-talent'] {
+  --schemes-brand-brand-25:  #ECEBFF;
+  --schemes-brand-brand-50:  #D9D6FF;
+  --schemes-brand-brand-100: #C6C2FF;
+  --schemes-brand-brand-200: #B3ADFF;
+  --schemes-brand-brand-300: #A099FF;
+  --schemes-brand-brand-400: #8D85FF;
+  --schemes-brand-brand-500: #7066FF;
+  --schemes-brand-brand-600: #675CFF;
+  --schemes-brand-brand-700: #5447FF;
+  --schemes-brand-brand-800: #4133FF;
+  --schemes-brand-brand-900: #2E1FFF;
+  --schemes-brand-brand-950: #1B0AFF;
+}

@@ -1,4 +1,4 @@
-import { Button } from 'design-system'
+import { Button } from '../../design-system'
 import type { Birthday } from '../../mock/data'
 import './BirthdayWidget.css'
 

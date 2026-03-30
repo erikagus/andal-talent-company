@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { House, Note, SignOut, Bell } from '@phosphor-icons/react'
-import { Button } from 'design-system'
+import { Button } from '../../design-system'
 import { useAuth } from '../../context/AuthContext'
 import LoginModal from '../LoginModal/LoginModal'
 import avatarImg from '../../assets/portrait-asian-teen-boy.jpg'

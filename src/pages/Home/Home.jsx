@@ -1,6 +1,6 @@
-import { Button } from 'design-system'
-import 'design-system/styles/tokens.css'
-import 'design-system/styles/global.css'
+import { Button } from '../../design-system'
+import '../../styles/tokens.css'
+import '../../styles/global.css'
 import './Home.css'
 
 export default function Home() {

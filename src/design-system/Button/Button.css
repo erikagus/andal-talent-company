@@ -1,0 +1,257 @@
+/*
+ * Button — Andal Design System
+ * Source: Figma nodeId 194:72400 (component set "Button")
+ *
+ * Variant axes (exact Figma names):
+ *   Type  → Solid | Outline | Tonal | Plain
+ *   Size  → Small | Medium | Large
+ *   State → Default | Hover | Disable
+ *   Color → Primary | Secondary | Error
+ *
+ * Figma padding spec (measured from component, all sizes):
+ *   Small:   pt=8  pb=8  pl=12 pr=12  gap=4   h=36px
+ *   Medium:  pt=4  pb=4  pl=16 pr=16  gap=8   h=40px
+ *   Large:   pt=12 pb=12 pl=20 pr=20  gap=12  h=52px
+ *
+ * Typography:
+ *   Small/Medium Solid+Plain: 14px / 600 / 1.4
+ *   Medium Outline+Tonal:     16px / 600 / 1.4   ← intentional per Figma
+ *   Large (all):              16px / 600 / 1.4
+ *
+ * Icon sizes: Small=20px  Medium=24px  Large=24px
+ *
+ * Tonal/Plain brand-tint backgrounds (verified against kharisma theme):
+ *   Primary default  → brand-100  Primary hover → brand-200
+ *   Secondary default → gray-100  Secondary hover → gray-200
+ *
+ * Outline Secondary border: gray-400 (default + hover) — does NOT switch to brand on hover
+ * Outline disabled border: gray-200 (not gray-100)
+ * Plain Secondary: gray-900 text (not brand)
+ *
+ * Hover: all enabled variants gain elevation shadow
+ *   box-shadow: 0 1px 3px 1px rgba(0,0,0,.15), 0 1px 2px 0 rgba(0,0,0,.30)
+ */
+
+/* ── Base ─────────────────────────────────────────────────────────────── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--btn-gap);
+  padding: var(--btn-py) var(--btn-px);
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  font-family: inherit;
+  font-size: var(--btn-font-size);
+  font-weight: var(--font-weight-semi-bold);
+  line-height: var(--line-height-default);
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease,
+    box-shadow 150ms ease;
+
+  background-color: var(--btn-bg, transparent);
+  border-color: var(--btn-border, transparent);
+  color: var(--btn-text);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--schemes-brand-brand-500);
+  outline-offset: 2px;
+}
+
+/* ── Icon slot ────────────────────────────────────────────────────────── */
+
+.btn__icon {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* ── Sizes ────────────────────────────────────────────────────────────── */
+
+.btn[data-size='Small'] {
+  --btn-py: 8px;
+  --btn-px: 12px;
+  --btn-gap: 4px;
+  --btn-font-size: var(--font-size-sm);
+  min-height: 36px;
+}
+
+.btn[data-size='Medium'] {
+  --btn-py: 4px;
+  --btn-px: 16px;
+  --btn-gap: 8px;
+  --btn-font-size: var(--font-size-sm);
+  min-height: 40px;
+}
+
+.btn[data-size='Large'] {
+  --btn-py: 12px;
+  --btn-px: 20px;
+  --btn-gap: 12px;
+  --btn-font-size: var(--font-size-md);
+  min-height: 52px;
+}
+
+/* ── Variant font-size overrides ─────────────────────────────────────── */
+/* Figma specifies 16px for Outline and Tonal at Medium size              */
+
+.btn[data-variant='Outline'][data-size='Medium'],
+.btn[data-variant='Tonal'][data-size='Medium'] {
+  --btn-font-size: var(--font-size-md);
+}
+
+/* ── Hover elevation shadow (all enabled variants) ───────────────────── */
+/* Figma: all hover states add a two-layer drop shadow                    */
+
+.btn:hover:not(:disabled) {
+  box-shadow:
+    0 1px 3px 1px rgba(0, 0, 0, 0.15),
+    0 1px 2px 0   rgba(0, 0, 0, 0.30);
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   Type = Solid
+   ══════════════════════════════════════════════════════════════════════ */
+
+.btn[data-variant='Solid'][data-color='Primary'] {
+  --btn-bg: var(--schemes-brand-brand-500);
+  --btn-text: var(--schemes-base-white);
+}
+.btn[data-variant='Solid'][data-color='Primary']:hover:not(:disabled) {
+  --btn-bg: var(--schemes-brand-brand-600);
+}
+
+.btn[data-variant='Solid'][data-color='Secondary'] {
+  --btn-bg: var(--schemes-gray-light-gray-950); /* #0c111d */
+  --btn-text: var(--schemes-base-white);
+}
+/* Secondary hover keeps same bg — shadow added by global hover rule */
+
+.btn[data-variant='Solid'][data-color='Error'] {
+  --btn-bg: var(--schemes-error-error-500);   /* #f04438 */
+  --btn-text: var(--schemes-base-white);
+}
+.btn[data-variant='Solid'][data-color='Error']:hover:not(:disabled) {
+  --btn-bg: var(--schemes-error-error-600);   /* #d92d20 */
+}
+
+.btn[data-variant='Solid']:disabled {
+  --btn-bg: var(--schemes-gray-light-gray-100);  /* #f2f4f7 */
+  --btn-text: var(--schemes-gray-light-gray-400); /* #98a2b3 */
+  cursor: not-allowed;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   Type = Outline
+   ══════════════════════════════════════════════════════════════════════ */
+
+.btn[data-variant='Outline'][data-color='Primary'] {
+  --btn-bg: transparent;
+  --btn-border: var(--schemes-brand-brand-500);
+  --btn-text: var(--schemes-brand-brand-500);
+}
+.btn[data-variant='Outline'][data-color='Primary']:hover:not(:disabled) {
+  --btn-bg: var(--schemes-brand-brand-100);
+}
+
+.btn[data-variant='Outline'][data-color='Secondary'] {
+  --btn-bg: transparent;
+  --btn-border: var(--schemes-gray-light-gray-400); /* #98a2b3 */
+  --btn-text: var(--schemes-gray-light-gray-900);   /* #101828 */
+}
+.btn[data-variant='Outline'][data-color='Secondary']:hover:not(:disabled) {
+  --btn-bg: var(--schemes-gray-light-gray-200);     /* #eaecf0 */
+  --btn-border: var(--schemes-gray-light-gray-400); /* #98a2b3 */
+  --btn-text: var(--schemes-gray-light-gray-900);   /* #101828 */
+}
+
+.btn[data-variant='Outline'][data-color='Error'] {
+  --btn-bg: transparent;
+  --btn-border: var(--schemes-error-error-600);  /* #d92d20 */
+  --btn-text: var(--schemes-error-error-600);
+}
+.btn[data-variant='Outline'][data-color='Error']:hover:not(:disabled) {
+  --btn-bg: var(--schemes-error-error-100);      /* #fee4e2 */
+}
+
+.btn[data-variant='Outline']:disabled {
+  --btn-bg: transparent;
+  --btn-border: var(--schemes-gray-light-gray-200); /* #eaecf0 */
+  --btn-text: var(--schemes-gray-light-gray-400);
+  cursor: not-allowed;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   Type = Tonal
+   ══════════════════════════════════════════════════════════════════════ */
+
+.btn[data-variant='Tonal'][data-color='Primary'] {
+  --btn-bg: var(--schemes-brand-brand-100);
+  --btn-text: var(--schemes-brand-brand-500);
+}
+.btn[data-variant='Tonal'][data-color='Primary']:hover:not(:disabled) {
+  --btn-bg: var(--schemes-brand-brand-200);
+}
+
+.btn[data-variant='Tonal'][data-color='Secondary'] {
+  --btn-bg: var(--schemes-gray-light-gray-100);   /* #f2f4f7 */
+  --btn-text: var(--schemes-gray-light-gray-900); /* #101828 */
+}
+.btn[data-variant='Tonal'][data-color='Secondary']:hover:not(:disabled) {
+  --btn-bg: var(--schemes-gray-light-gray-200); /* #eaecf0 */
+}
+
+.btn[data-variant='Tonal'][data-color='Error'] {
+  --btn-bg: var(--schemes-error-error-100);   /* #fee4e2 */
+  --btn-text: var(--schemes-error-error-600); /* #d92d20 */
+}
+.btn[data-variant='Tonal'][data-color='Error']:hover:not(:disabled) {
+  --btn-bg: var(--schemes-error-error-200);   /* #fecdca */
+}
+
+.btn[data-variant='Tonal']:disabled {
+  --btn-bg: var(--schemes-gray-light-gray-100);
+  --btn-text: var(--schemes-gray-light-gray-400);
+  cursor: not-allowed;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   Type = Plain
+   ══════════════════════════════════════════════════════════════════════ */
+
+.btn[data-variant='Plain'][data-color='Primary'] {
+  --btn-bg: transparent;
+  --btn-text: var(--schemes-brand-brand-500);
+}
+.btn[data-variant='Plain'][data-color='Primary']:hover:not(:disabled) {
+  --btn-bg: var(--schemes-brand-brand-100);
+}
+
+.btn[data-variant='Plain'][data-color='Secondary'] {
+  --btn-bg: transparent;
+  --btn-text: var(--schemes-gray-light-gray-900); /* #101828 */
+}
+.btn[data-variant='Plain'][data-color='Secondary']:hover:not(:disabled) {
+  --btn-bg: var(--schemes-gray-light-gray-200);   /* #eaecf0 */
+}
+
+.btn[data-variant='Plain'][data-color='Error'] {
+  --btn-bg: transparent;
+  --btn-text: var(--schemes-error-error-600);
+}
+.btn[data-variant='Plain'][data-color='Error']:hover:not(:disabled) {
+  --btn-bg: var(--schemes-error-error-100);
+}
+
+.btn[data-variant='Plain']:disabled {
+  --btn-bg: transparent;
+  --btn-text: var(--schemes-gray-light-gray-400);
+  cursor: not-allowed;
+}

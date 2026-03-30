@@ -1,5 +1,5 @@
 import { MapPin, Briefcase, Users, Globe, ClockUser, ClockClockwise } from '@phosphor-icons/react'
-import { Button } from 'design-system'
+import { Button } from '../../design-system'
 import { Navbar } from '../../components'
 import './CompanyJobListPage.css'
 

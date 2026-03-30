@@ -1,0 +1,283 @@
+/*
+ * Tabs — Andal Design System
+ * Figma nodeId: 187:19134 (component set)
+ *
+ * Variants:
+ *   Type:          Fixed | Scrollable
+ *   Style:         Primary | Secondary
+ *   Configuration: Label only | Label & icon | Icon only
+ *
+ * Measurements from Figma:
+ *   Tab height (label-only / icon-only): 48px + 1px divider = 49px total
+ *   Tab height (label-icon):             64px + 1px divider = 65px total
+ *   Horizontal padding per tab:          16px
+ *   Content vertical padding:            14px top + 14px bottom
+ *   Icon ↔ label gap (label-icon):       4px
+ *   Active indicator (primary):          3px, brand color, bottom of content
+ *   Active indicator (secondary):        3px, brand color, full-width bottom
+ *   Divider:                             1px, --schemes-gray-light-gray-400
+ */
+
+/* ── Container ─────────────────────────────────────────────────────── */
+
+.tabs {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: var(--state-layers-background-color-main-bg-primary);
+}
+
+/* ── Nav wrapper (track + scroll arrows) ───────────────────────────── */
+
+.tabs__nav {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+}
+
+/* ── Scroll arrows ──────────────────────────────────────────────────── */
+
+.tabs__arrow {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--state-layers-text-color-main-text-tertiary);
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  /* Hidden until overflow is detected */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 150ms ease, color 120ms ease;
+}
+
+.tabs__arrow[data-visible] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.tabs__arrow--left {
+  left: 0;
+  /* Fade the track edge so tabs behind the arrow don't look clipped */
+  background: linear-gradient(
+    to right,
+    var(--state-layers-background-color-main-bg-primary) 55%,
+    transparent
+  );
+}
+
+.tabs__arrow--right {
+  right: 0;
+  background: linear-gradient(
+    to left,
+    var(--state-layers-background-color-main-bg-primary) 55%,
+    transparent
+  );
+}
+
+.tabs__arrow:hover {
+  color: var(--state-layers-text-color-main-text-primary);
+}
+
+/* Touch devices can swipe — arrows are not needed and would be confusing */
+@media (hover: none) {
+  .tabs__arrow {
+    display: none;
+  }
+}
+
+/* ── Track (row of tabs) ────────────────────────────────────────────── */
+
+.tabs__track {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%;
+}
+
+/* Fixed: tabs share full width equally */
+[data-type="fixed"] .tabs__track {
+  overflow: hidden;
+}
+
+/* Scrollable: tabs use natural width, track scrolls */
+[data-type="scrollable"] .tabs__track {
+  overflow-x: auto;
+  /* hide scrollbar but keep scroll behavior */
+  scrollbar-width: none;
+}
+[data-type="scrollable"] .tabs__track::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Individual tab button ─────────────────────────────────────────── */
+
+.tabs__tab {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: stretch;
+  padding: 0;
+  border: none;
+  background: var(--state-layers-background-color-main-bg-primary);
+  cursor: pointer;
+  outline: none;
+  /* Remove button default styles */
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Fixed: each tab expands to fill equal share */
+[data-type="fixed"] .tabs__tab {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Scrollable: tabs use natural width */
+[data-type="scrollable"] .tabs__tab {
+  flex: none;
+  white-space: nowrap;
+}
+
+/* ── Tab content (inner centering frame) ───────────────────────────── */
+
+.tabs__tab-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  flex: 1;
+  padding: 14px 16px;
+  gap: 4px;
+}
+
+/* Label-icon: taller content area */
+[data-configuration="label-icon"] .tabs__tab-content {
+  padding: 12px 16px;
+}
+
+/* ── Active indicator ──────────────────────────────────────────────── */
+
+/* PRIMARY: 3px bar at bottom of the content area (underlines label/icon) */
+[data-tab-style="primary"] .tabs__tab[data-active] .tabs__tab-content::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 16px;
+  right: 16px;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: var(--state-layers-foreground-color-brand-fg-brand-primary);
+}
+
+/* SECONDARY: 3px bar at very bottom of the full tab width */
+[data-tab-style="secondary"] .tabs__tab[data-active]::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: var(--state-layers-foreground-color-brand-fg-brand-primary);
+}
+
+/* ── Label ─────────────────────────────────────────────────────────── */
+
+.tabs__tab-label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semi-bold);
+  line-height: 20px;
+  color: var(--state-layers-text-color-main-text-tertiary);
+  transition: color 120ms ease;
+  user-select: none;
+}
+
+/* Primary active: brand color */
+[data-tab-style="primary"] .tabs__tab[data-active] .tabs__tab-label {
+  color: var(--state-layers-foreground-color-brand-fg-brand-primary);
+}
+
+/* Secondary active: dark / text-primary */
+[data-tab-style="secondary"] .tabs__tab[data-active] .tabs__tab-label {
+  color: var(--state-layers-text-color-main-text-primary);
+}
+
+/* ── Icon ──────────────────────────────────────────────────────────── */
+
+.tabs__tab-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--state-layers-text-color-main-text-tertiary);
+  transition: color 120ms ease;
+}
+
+/* Primary active icon: brand color */
+[data-tab-style="primary"] .tabs__tab[data-active] .tabs__tab-icon {
+  color: var(--state-layers-foreground-color-brand-fg-brand-primary);
+}
+
+/* Secondary active icon: dark */
+[data-tab-style="secondary"] .tabs__tab[data-active] .tabs__tab-icon {
+  color: var(--state-layers-text-color-main-text-primary);
+}
+
+/* ── Badge dot ─────────────────────────────────────────────────────── */
+
+.tabs__badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--schemes-error-error-700); /* error red — matches Figma badge fill */
+}
+
+/* ── Hover & focus states ──────────────────────────────────────────── */
+
+.tabs__tab:not([data-disabled]):not([data-active]):hover .tabs__tab-label,
+.tabs__tab:not([data-disabled]):not([data-active]):hover .tabs__tab-icon {
+  color: var(--state-layers-text-color-main-text-tertiary-hover);
+}
+
+.tabs__tab:not([data-disabled]):hover {
+  background: var(--state-layers-background-color-main-bg-primary-hover);
+}
+
+.tabs__tab:focus-visible {
+  outline: 2px solid var(--state-layers-foreground-color-brand-fg-brand-primary);
+  outline-offset: -2px;
+}
+
+/* ── Disabled state ────────────────────────────────────────────────── */
+
+.tabs__tab[data-disabled] {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.tabs__tab[data-disabled] .tabs__tab-label,
+.tabs__tab[data-disabled] .tabs__tab-icon {
+  color: var(--state-layers-text-color-negative-text-disabled);
+}
+
+/* ── Divider ───────────────────────────────────────────────────────── */
+
+.tabs__divider {
+  width: 100%;
+  height: 1px;
+  background: var(--schemes-gray-light-gray-400);
+}

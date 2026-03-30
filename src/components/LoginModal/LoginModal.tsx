@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { TextField, Button } from 'design-system'
+import { TextField, Button } from '../../design-system'
 import { Eye, EyeSlash } from '@phosphor-icons/react'
 import { useAuth } from '../../context/AuthContext'
 import './LoginModal.css'

@@ -1,0 +1,200 @@
+/*
+ * Checkbox — Andal Design System
+ * Source: Figma nodeId 148:45478
+ *
+ * Structure (from Figma):
+ *   48×48 touch target (.checkbox__control)
+ *   └─ 40×40 ripple circle (.checkbox__ripple)
+ *   └─ 18×18 visual box (.checkbox__box)   ← 40px − 2×11px padding
+ *
+ * Axes:  Type  → Selected | Unselected | Indeterminate |
+ *                Error selected | Error unselected | Error indeterminate
+ *        State → Enabled | Hovered | Focused | Pressed | Disabled
+ */
+
+/* ── Root label ──────────────────────────────────────────────────────── */
+
+.checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.checkbox[data-disabled] {
+  cursor: not-allowed;
+}
+
+/* ── Touch-target wrapper ────────────────────────────────────────────── */
+
+.checkbox__control {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+}
+
+/* ── Hidden native input ─────────────────────────────────────────────── */
+
+.checkbox__input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  cursor: inherit;
+  z-index: 1;
+}
+
+/* ── Ripple (state-layer) ────────────────────────────────────────────── */
+/*    40×40 circle behind the box, shows hover / focus / pressed tints   */
+
+.checkbox__ripple {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: transparent;
+  transition: background 150ms ease;
+  pointer-events: none;
+}
+
+/* -- Unselected ripple ------------------------------------------------- */
+.checkbox:not([data-error]):not([data-disabled])
+  .checkbox__input:not(:checked):not(:indeterminate):hover
+  ~ .checkbox__ripple,
+.checkbox:not([data-error]):not([data-disabled]):hover
+  .checkbox__input:not(:checked):not(:indeterminate)
+  ~ .checkbox__ripple {
+  background: var(--schemes-gray-light-gray-200); /* #EAECF0 */
+}
+
+.checkbox__input:not(:checked):not(:indeterminate):focus-visible ~ .checkbox__ripple,
+.checkbox__input:not(:checked):not(:indeterminate):active ~ .checkbox__ripple {
+  background: var(--schemes-gray-light-gray-100); /* #F2F4F7 */
+}
+
+/* -- Selected / Indeterminate ripple ----------------------------------- */
+.checkbox:not([data-error]):not([data-disabled])
+  .checkbox__input:is(:checked, :indeterminate):hover
+  ~ .checkbox__ripple,
+.checkbox:not([data-error]):not([data-disabled]):hover
+  .checkbox__input:is(:checked, :indeterminate)
+  ~ .checkbox__ripple {
+  background: var(--schemes-gray-light-gray-100); /* #F2F4F7 */
+}
+
+.checkbox__input:is(:checked, :indeterminate):focus-visible ~ .checkbox__ripple,
+.checkbox__input:is(:checked, :indeterminate):active ~ .checkbox__ripple {
+  background: var(--schemes-brand-brand-25); /* #E5F3FF */
+}
+
+/* -- Error ripple (any type) ------------------------------------------- */
+.checkbox[data-error]:not([data-disabled]) .checkbox__control:hover .checkbox__ripple {
+  background: var(--schemes-error-error-50); /* #FEF3F2 */
+}
+
+.checkbox[data-error] .checkbox__input:focus-visible ~ .checkbox__ripple,
+.checkbox[data-error] .checkbox__input:active ~ .checkbox__ripple {
+  background: var(--schemes-error-error-100); /* #FEE4E2 */
+}
+
+/* ── Visual box ──────────────────────────────────────────────────────── */
+
+.checkbox__box {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: var(--radius-xs);
+  border: 1.5px solid var(--schemes-gray-light-gray-300);
+  background: var(--schemes-base-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 150ms ease, border-color 150ms ease;
+  pointer-events: none;
+  color: var(--schemes-base-white);
+}
+
+/* -- Selected ---------------------------------------------------------- */
+.checkbox__input:checked ~ .checkbox__box {
+  background: var(--schemes-brand-brand-500);
+  border-color: var(--schemes-brand-brand-500);
+}
+
+/* -- Indeterminate ----------------------------------------------------- */
+.checkbox__input:indeterminate ~ .checkbox__box {
+  background: var(--schemes-brand-brand-500);
+  border-color: var(--schemes-brand-brand-500);
+}
+
+/* -- Error unselected -------------------------------------------------- */
+.checkbox[data-error] .checkbox__box {
+  border-color: var(--schemes-error-error-600);
+}
+
+/* -- Error selected / indeterminate ------------------------------------ */
+.checkbox[data-error] .checkbox__input:checked ~ .checkbox__box,
+.checkbox[data-error] .checkbox__input:indeterminate ~ .checkbox__box {
+  background: var(--schemes-error-error-600);
+  border-color: var(--schemes-error-error-600);
+}
+
+/* -- Disabled (overrides everything) ----------------------------------- */
+.checkbox__input:disabled ~ .checkbox__box {
+  background: var(--schemes-gray-light-gray-100);
+  border-color: var(--schemes-gray-light-gray-300);
+  color: var(--schemes-gray-light-gray-400);
+}
+
+.checkbox__input:disabled:checked ~ .checkbox__box,
+.checkbox__input:disabled:indeterminate ~ .checkbox__box {
+  background: var(--schemes-gray-light-gray-100);
+  border-color: transparent;
+  color: var(--schemes-gray-light-gray-400);
+}
+
+/* ── Icons inside the box ────────────────────────────────────────────── */
+
+.checkbox__icon {
+  display: none;
+  width: 12px;
+  height: 12px;
+}
+
+.checkbox__input:checked ~ .checkbox__box .checkbox__icon--check {
+  display: block;
+}
+
+.checkbox__input:indeterminate ~ .checkbox__box .checkbox__icon--dash {
+  display: block;
+}
+
+/* ── Focus ring on box (fallback for non-focus-visible browsers) ─────── */
+
+.checkbox__input:focus-visible ~ .checkbox__box {
+  outline: 2px solid var(--schemes-brand-brand-500);
+  outline-offset: 2px;
+}
+
+.checkbox[data-error] .checkbox__input:focus-visible ~ .checkbox__box {
+  outline-color: var(--schemes-error-error-600);
+}
+
+/* ── Label text ──────────────────────────────────────────────────────── */
+
+.checkbox__label {
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
+  color: var(--schemes-gray-light-gray-900);
+  user-select: none;
+}
+
+.checkbox[data-disabled] .checkbox__label {
+  color: var(--schemes-gray-light-gray-400);
+}

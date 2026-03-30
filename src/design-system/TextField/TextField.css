@@ -1,0 +1,222 @@
+/*
+ * TextField — Andal Design System
+ * Figma nodeId: 1454:4032  (component set)
+ *
+ * Sizes (from Figma component set):
+ *   md:  field h=40px  · v-padding=8px   · input font=14px  · icon=16px
+ *   lg:  field h=56px  · v-padding=16px  · input font=16px  · icon=20px
+ *
+ * All sizes:  h-padding=8px  ·  gap=8px  ·  corner-radius=4px
+ *
+ * State borders (from Figma variable IDs):
+ *   default   →  1px solid  #d0d5dd  (gray-300,   VariableID:144:63989)
+ *   active    →  2px solid  #7db8ff  (brand-300,  VariableID:144:63994)  via border+inset shadow
+ *   error     →  1px solid  #d92d20  (error-600,  VariableID:144:63986)
+ *   disabled  →  no border  ·  bg #f2f4f7 (gray-100)
+ *
+ * Label row typography (12px / 400 / 140%):
+ *   label       →  gray-900   (#101828,  VariableID:143:63967)
+ *   optional    →  gray-500   (#667085,  VariableID:144:63976)
+ *   mandatory * →  error-600  (#d92d20,  VariableID:144:63986)
+ *
+ * Support row typography (12px / 400 / 140%):
+ *   error text  →  error-600  (#d92d20)
+ *   hint text   →  gray-500   (#667085)
+ *   counter     →  gray-400   (#98a2b3,  VariableID:144:63980)
+ */
+
+/* ── Root ─────────────────────────────────────────────────────────────── */
+
+.text-field {
+  display: inline-flex;
+  flex-direction: column;
+  font-family: inherit;
+  width: 100%;
+}
+
+/* ── Label row ───────────────────────────────────────────────────────── */
+
+.text-field__label-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-bottom: 4px;
+}
+
+.text-field__label {
+  font-size: var(--font-size-xs);
+  font-weight: 400;
+  line-height: var(--line-height-default);
+  color: var(--schemes-gray-light-gray-900);
+  cursor: default;
+}
+
+.text-field__info-icon {
+  display: inline-flex;
+  align-items: center;
+  color: var(--schemes-gray-light-gray-400);
+  cursor: help;
+  line-height: 0;
+}
+
+.text-field__optional {
+  font-size: var(--font-size-xs);
+  font-weight: 400;
+  line-height: var(--line-height-default);
+  color: var(--schemes-gray-light-gray-500);
+}
+
+.text-field__mandatory {
+  font-size: var(--font-size-xs);
+  font-weight: 400;
+  line-height: var(--line-height-default);
+  color: var(--schemes-error-error-600);
+}
+
+/* ── Field box ───────────────────────────────────────────────────────── */
+
+.text-field__box {
+  border: 1px solid var(--schemes-gray-light-gray-300);
+  border-radius: var(--radius-xs);
+  background: var(--schemes-base-white);
+  transition: border-color 120ms ease, border-width 120ms ease,
+    background 120ms ease;
+  /* border-box sizing keeps outer dimensions stable when border thickens */
+  box-sizing: border-box;
+}
+
+/* Active: 2px visual stroke via inset box-shadow — matches Figma strokeWeight=2, strokeAlign=INSIDE.
+   Border stays 1px so outer dimensions never change (zero height shift). */
+.text-field[data-state='active'] .text-field__box,
+.text-field:not([data-state='disabled']) .text-field__box:focus-within {
+  border-color: var(--schemes-brand-brand-300);
+  box-shadow: inset 0 0 0 1px var(--schemes-brand-brand-300);
+}
+
+/* Error */
+.text-field[data-state='error'] .text-field__box {
+  border: 1px solid var(--schemes-error-error-600);
+}
+
+/* Disabled: gray-100 fill, no border */
+.text-field[data-state='disabled'] .text-field__box {
+  border: 1px solid transparent;
+  background: var(--schemes-gray-light-gray-100);
+}
+
+/* ── State layer (flex row holding icon / input / trailing icon) ──────── */
+
+.text-field__state-layer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  /* lg default padding — overridden per size below */
+  padding: 16px 8px;
+  box-sizing: border-box;
+}
+
+/* md */
+.text-field[data-size='md'] .text-field__state-layer {
+  padding: 8px;
+}
+
+/* ── Input element ───────────────────────────────────────────────────── */
+
+.text-field__input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: var(--font-size-md); /* lg */
+  font-weight: 400;
+  line-height: var(--line-height-default);
+  color: var(--schemes-gray-light-gray-900);
+  padding: 0;
+  margin: 0;
+}
+
+.text-field__input::placeholder {
+  color: var(--schemes-gray-light-gray-400);
+}
+
+/* md */
+.text-field[data-size='md'] .text-field__input {
+  font-size: var(--font-size-sm);
+}
+
+/* Disabled input */
+.text-field[data-state='disabled'] .text-field__input {
+  cursor: not-allowed;
+  color: var(--schemes-gray-light-gray-400);
+}
+
+.text-field[data-state='disabled'] .text-field__input::placeholder {
+  color: var(--schemes-gray-light-gray-400);
+}
+
+/* ── Icons inside the field ──────────────────────────────────────────── */
+
+.text-field__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--schemes-gray-light-gray-500);
+  line-height: 0;
+}
+
+/* Error state: icons turn red */
+.text-field[data-state='error'] .text-field__icon {
+  color: var(--schemes-error-error-600);
+}
+
+/* Disabled state: icons fade */
+.text-field[data-state='disabled'] .text-field__icon {
+  color: var(--schemes-gray-light-gray-300);
+}
+
+/* ── Support row ─────────────────────────────────────────────────────── */
+
+.text-field__support {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 4px 8px 0;
+}
+
+.text-field__support-icon {
+  display: none; /* hidden unless error */
+  align-items: center;
+  flex-shrink: 0;
+  color: var(--schemes-error-error-600);
+  line-height: 0;
+  margin-top: 1px; /* optical alignment with 12px text */
+}
+
+.text-field[data-state='error'] .text-field__support-icon {
+  display: inline-flex;
+}
+
+.text-field__support-text {
+  flex: 1;
+  font-size: var(--font-size-xs);
+  font-weight: 400;
+  line-height: var(--line-height-default);
+  color: var(--schemes-gray-light-gray-500); /* hint color in non-error states */
+}
+
+.text-field[data-state='error'] .text-field__support-text {
+  color: var(--schemes-error-error-600);
+}
+
+.text-field__counter {
+  margin-left: auto;
+  font-size: var(--font-size-xs);
+  font-weight: 400;
+  line-height: var(--line-height-default);
+  color: var(--schemes-gray-light-gray-400);
+  white-space: nowrap;
+  flex-shrink: 0;
+}

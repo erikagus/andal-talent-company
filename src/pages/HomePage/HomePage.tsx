@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Button } from 'design-system'
+import { Button } from '../../design-system'
 import { Plus } from '@phosphor-icons/react'
 import { Navbar, NewsCard, BirthdayWidget } from '../../components'
 import { birthdays } from '../../mock/data'

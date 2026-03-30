@@ -1,0 +1,10 @@
+.checkbox-group {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.checkbox-group__children {
+  display: flex;
+  flex-direction: column;
+  padding-left: 16px;
+}

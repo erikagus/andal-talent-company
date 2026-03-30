@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Button } from 'design-system'
+import { Button } from '../../design-system'
 import { Plus, ArrowUp, Funnel, MagnifyingGlass, Eye, PencilSimple, Trash, X, Warning } from '@phosphor-icons/react'
 import { Navbar } from '../../components'
 import { supabase } from '../../lib/supabase'
