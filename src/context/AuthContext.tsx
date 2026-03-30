@@ -6,6 +6,7 @@ export interface AuthUser {
   name: string
   email: string
   role: 'admin' | 'employee' | 'new_employee'
+  avatar_url?: string | null
 }
 
 interface AuthContextValue {
@@ -23,13 +24,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   async function login(email: string, password: string): Promise<boolean> {
     const { data, error } = await supabase
       .from('users')
-      .select('id, name, email, role')
+      .select('id, name, email, role, avatar_url')
       .eq('email', email)
       .eq('password', password)
       .neq('role', 'superadmin')
       .single()
     if (error || !data) return false
-    setCurrentUser({ id: data.id, name: data.name, email: data.email, role: data.role })
+    setCurrentUser({ id: data.id, name: data.name, email: data.email, role: data.role, avatar_url: data.avatar_url ?? null })
     return true
   }
 

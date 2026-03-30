@@ -4,7 +4,7 @@ import { House, Note, SignOut, Bell } from '@phosphor-icons/react'
 import { Button } from '../../design-system'
 import { useAuth } from '../../context/AuthContext'
 import LoginModal from '../LoginModal/LoginModal'
-import avatarImg from '../../assets/portrait-asian-teen-boy.jpg'
+import logoCompany from '../../assets/logo-company.png'
 import './Navbar.css'
 
 export default function Navbar() {
@@ -33,7 +33,7 @@ export default function Navbar() {
           {/* Brand */}
           <div className="navbar__brand">
             <div className="navbar__logo">
-              <img src="/src/assets/logo-company.png" alt="PT Nusantara Teknologi Digital" />
+              <img src={logoCompany} alt="PT Nusantara Teknologi Digital" />
             </div>
             <span className="navbar__company">PT Nusantara Teknologi Digital</span>
           </div>
@@ -55,10 +55,10 @@ export default function Navbar() {
                       {{ admin: 'Admin', employee: 'Employee', new_employee: 'New Employee' }[currentUser.role]}
                     </span>
                   </div>
-                  {currentUser.role === 'new_employee' ? (
+                  {currentUser.avatar_url ? (
                     <img
                       className="navbar__avatar navbar__avatar--img"
-                      src={avatarImg}
+                      src={currentUser.avatar_url}
                       alt={currentUser.name}
                     />
                   ) : (
