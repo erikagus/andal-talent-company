@@ -77,10 +77,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .bday-widget__avatar--img {
+  display: block;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  object-position: center;
 }
 
 /* 🎉 badge — bottom-right overlap */
