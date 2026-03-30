@@ -65,21 +65,21 @@
   gap: var(--spacing-2);
 }
 
-/* Avatar wrapper — 100×100 to contain the wavy ring around the 80px avatar */
+/* Avatar wrapper — 150×150 to contain the wavy ring around the 120px avatar */
 .ob-modal__avatar-wrap {
   position: relative;
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
 }
 
-/* 80×80 circle avatar — image, circle-cropped */
+/* 120×120 circle avatar — image, circle-cropped */
 .ob-modal__avatar {
-  width: 80px;
-  height: 80px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   border: 1px solid var(--state-layers-border-color-main-border-primary);
   object-fit: cover;
@@ -93,8 +93,8 @@
 .ob-modal__spinner {
   position: absolute;
   inset: 0;
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   animation: ob-spinner-rotate 2s linear infinite;
   transform-origin: center;
 }

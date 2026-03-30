@@ -78,6 +78,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .bday-widget__avatar--img {
