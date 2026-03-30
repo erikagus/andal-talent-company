@@ -1,3 +1,8 @@
+import budiImg  from '../assets/budi.png'
+import alisaImg from '../assets/alisa.png'
+import davidImg from '../assets/david.png'
+import sarahImg from '../assets/sarah.png'
+
 export interface Post {
   id: number
   title: string
@@ -13,7 +18,7 @@ export interface Birthday {
   name: string
   role: string
   date: string
-  avatar?: string
+  avatar_url?: string
 }
 
 export interface CurrentUser {
@@ -54,10 +59,10 @@ export const posts: Post[] = [
 ]
 
 export const birthdays: Birthday[] = [
-  { id: 1, name: 'Budi Santoso',   role: 'Sales Executive',          date: 'Today',    avatar: '/src/assets/budi.png' },
-  { id: 2, name: 'Alisa Thompson', role: 'Senior Software Engineer', date: 'Tomorrow', avatar: '/src/assets/alisa.png' },
-  { id: 3, name: 'David Chen',     role: 'Marketing Manager',        date: 'Mar 21',   avatar: '/src/assets/david.png' },
-  { id: 4, name: 'Sarah Johnson',  role: 'HR Specialist',            date: 'Mar 25',   avatar: '/src/assets/sarah.png' },
+  { id: 1, name: 'Budi Santoso',   role: 'Sales Executive',          date: 'Today',    avatar_url: budiImg },
+  { id: 2, name: 'Alisa Thompson', role: 'Senior Software Engineer', date: 'Tomorrow', avatar_url: alisaImg },
+  { id: 3, name: 'David Chen',     role: 'Marketing Manager',        date: 'Mar 21',   avatar_url: davidImg },
+  { id: 4, name: 'Sarah Johnson',  role: 'HR Specialist',            date: 'Mar 25',   avatar_url: sarahImg },
 ]
 
 export const currentUser: CurrentUser = {

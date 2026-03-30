@@ -28,8 +28,14 @@ export default function BirthdayWidget({ birthdays, onViewAll }: BirthdayWidgetP
             <div className="bday-widget__row">
               {/* Avatar with 🎉 badge */}
               <div className="bday-widget__avatar-wrap">
-                {person.avatar
-                  ? <img src={person.avatar} alt={person.name} className="bday-widget__avatar bday-widget__avatar--img" />
+                {void console.log('[BirthdayWidget] avatar_url for', person.name, ':', person.avatar_url)}
+                {person.avatar_url
+                  ? <img
+                      src={person.avatar_url}
+                      alt={person.name}
+                      onError={(e) => console.log('[BirthdayWidget] img error:', e, person.avatar_url)}
+                      className="bday-widget__avatar bday-widget__avatar--img"
+                    />
                   : <div className="bday-widget__avatar" aria-hidden="true">{person.name[0]}</div>
                 }
                 <span className="bday-widget__badge" aria-hidden="true">🎉</span>
