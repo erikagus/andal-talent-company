@@ -282,6 +282,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  overflow: hidden;
 }
 
 /* Real photo */
@@ -497,13 +498,17 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  overflow: hidden;
 }
 
 .cal-modal__avatar--img {
+  display: block;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  object-position: center;
   background: none;
   border: 2px solid var(--state-layers-border-color-main-border-primary);
-  display: block;
 }
 
 .cal-modal__avatar--company {

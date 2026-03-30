@@ -2,12 +2,12 @@ import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import type { EventClickArg, EventContentArg } from '@fullcalendar/core'
-import { useRef, useState } from 'react'
+import type { EventClickArg, EventContentArg, EventInput } from '@fullcalendar/core'
+import { useRef, useState, useEffect } from 'react'
 import { X, Cake, Buildings, ArrowLeft } from '@phosphor-icons/react'
 import { useNavigate } from 'react-router-dom'
 import { Navbar } from '../../components'
-import alexAvatar from '../../assets/portrait-asian-teen-boy.jpg'
+import { supabase } from '../../lib/supabase'
 import './CalendarPage.css'
 
 /* ── Types ─────────────────────────────────────────────────────────── */
@@ -18,7 +18,7 @@ type ColorFamily = 'brand' | 'success' | 'warning' | 'error'
 interface Person {
   name: string
   role: string
-  avatar?: string
+  avatar_url?: string | null
 }
 
 interface ModalInfo {
@@ -30,33 +30,21 @@ interface ModalInfo {
   allDay: boolean
 }
 
-/* ── Color family mapping ───────────────────────────────────────────── */
-/* CSS handles the actual colors via --cal-* tokens per family class    */
-
-const PERSON_FAMILY: Record<string, ColorFamily> = {
-  'Budi Santoso':   'success',
-  'Alisa Thompson': 'brand',
-  'David Chen':     'warning',
-  'Sarah Johnson':  'error',
-  'Alex':           'success',
+interface BirthdayUser {
+  id: string
+  name: string
+  job_position: string
+  avatar_url: string | null
+  birthday: string // YYYY-MM-DD
 }
 
-/* ── Event factories ───────────────────────────────────────────────── */
+/* ── Color families cycling for birthday events ─────────────────────── */
 
-function birthdayEvent(id: string, name: string, role: string, date: string, avatar?: string) {
-  const colorFamily: ColorFamily = PERSON_FAMILY[name] ?? 'brand'
-  return {
-    id,
-    title: `${name}'s Birthday`,
-    start: date,
-    allDay: true,
-    backgroundColor: 'transparent',
-    borderColor: 'transparent',
-    extendedProps: { type: 'birthday' as const, colorFamily, person: { name, role, avatar } },
-  }
-}
+const COLOR_FAMILIES: ColorFamily[] = ['brand', 'success', 'warning', 'error']
 
-function companyEvent(id: string, title: string, start: string, end?: string, allDay = false) {
+/* ── Static company events ─────────────────────────────────────────── */
+
+function companyEvent(id: string, title: string, start: string, end?: string, allDay = false): EventInput {
   return {
     id,
     title,
@@ -69,15 +57,7 @@ function companyEvent(id: string, title: string, start: string, end?: string, al
   }
 }
 
-/* ── Mock events ───────────────────────────────────────────────────── */
-
-const EVENTS = [
-  birthdayEvent('bday-budi',  'Budi Santoso',   'Sales Executive',          '2026-03-28', '/src/assets/budi.png'),
-  birthdayEvent('bday-alisa', 'Alisa Thompson', 'Senior Software Engineer', '2026-03-29', '/src/assets/alisa.png'),
-  birthdayEvent('bday-david', 'David Chen',     'Marketing Manager',        '2026-03-21', '/src/assets/david.png'),
-  birthdayEvent('bday-sarah', 'Sarah Johnson',  'HR Specialist',            '2026-03-25', '/src/assets/sarah.png'),
-  birthdayEvent('bday-alex',  'Alex',           'New Employee',             '2026-04-01', alexAvatar),
-
+const COMPANY_EVENTS: EventInput[] = [
   companyEvent('evt-standup',  'Weekly Team Standup',               '2026-03-28T09:00:00', '2026-03-28T09:30:00'),
   companyEvent('evt-standup2', 'Weekly Team Standup',               '2026-04-01T09:00:00', '2026-04-01T09:30:00'),
   companyEvent('evt-q2',       'Q2 Planning Meeting',               '2026-03-31T10:00:00', '2026-03-31T12:00:00'),
@@ -100,6 +80,12 @@ function formatDate(date: Date, allDay: boolean): string {
   return `${d} • ${t}`
 }
 
+/** Map a birthday date (any year) to this calendar year */
+function birthdayThisYear(birthday: string): string {
+  const [, month, day] = birthday.split('-')
+  return `${new Date().getFullYear()}-${month}-${day}`
+}
+
 /* ── Page ──────────────────────────────────────────────────────────── */
 
 export default function CalendarPage() {
@@ -107,6 +93,36 @@ export default function CalendarPage() {
   const calRef = useRef<FullCalendar>(null)
   const [view, setView] = useState<ViewType>('dayGridMonth')
   const [modal, setModal] = useState<ModalInfo | null>(null)
+  const [birthdayEvents, setBirthdayEvents] = useState<EventInput[]>([])
+
+  useEffect(() => {
+    supabase
+      .from('users')
+      .select('id, name, job_position, avatar_url, birthday')
+      .not('birthday', 'is', null)
+      .then(({ data, error }) => {
+        console.log('[CalendarPage] birthday fetch — data:', data, 'error:', error)
+        if (!data) return
+        const events: EventInput[] = (data as BirthdayUser[]).map((user, i) => ({
+          id: `bday-${user.id}`,
+          title: `${user.name}'s Birthday`,
+          start: birthdayThisYear(user.birthday),
+          allDay: true,
+          backgroundColor: 'transparent',
+          borderColor: 'transparent',
+          extendedProps: {
+            type: 'birthday' as const,
+            colorFamily: COLOR_FAMILIES[i % COLOR_FAMILIES.length],
+            person: {
+              name: user.name,
+              role: user.job_position,
+              avatar_url: user.avatar_url,
+            } satisfies Person,
+          },
+        }))
+        setBirthdayEvents(events)
+      })
+  }, [])
 
   function changeView(v: ViewType) {
     setView(v)
@@ -134,11 +150,12 @@ export default function CalendarPage() {
       <div className="cal-event">
         {/* Avatar / icon */}
         <div className="cal-event__avatar-wrap">
-          {person?.avatar
+          {person?.avatar_url
             ? <img
                 className="cal-event__avatar cal-event__avatar--photo"
-                src={person.avatar}
+                src={person.avatar_url}
                 alt={name}
+                onError={(e) => console.log('[CalendarPage] img error:', e, person.avatar_url)}
               />
             : ep.type === 'company'
               ? <div className="cal-event__avatar cal-event__avatar--icon">
@@ -203,7 +220,7 @@ export default function CalendarPage() {
             dayHeaderFormat={{ weekday: 'short' }}
             dayMaxEvents={3}
             moreLinkText={(n) => `+${n} more`}
-            events={EVENTS}
+            events={[...COMPANY_EVENTS, ...birthdayEvents]}
             eventContent={renderEventContent}
             eventClick={handleEventClick}
             eventClassNames={(arg) => [`cal-color-${arg.event.extendedProps.colorFamily ?? 'brand'}`]}
@@ -224,11 +241,12 @@ export default function CalendarPage() {
 
             <div className="cal-modal__avatar-wrap">
               {modal.type === 'birthday' && modal.person ? (
-                modal.person.avatar
+                modal.person.avatar_url
                   ? <img
                       className="cal-modal__avatar cal-modal__avatar--img"
-                      src={modal.person.avatar}
+                      src={modal.person.avatar_url}
                       alt={modal.person.name}
+                      onError={(e) => console.log('[CalendarPage] modal img error:', e, modal.person?.avatar_url)}
                     />
                   : <div className="cal-modal__avatar">
                       {initials(modal.person.name)}
