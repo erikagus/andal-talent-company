@@ -1,13 +1,54 @@
+import { useState, useEffect } from 'react'
 import { Button } from '../../design-system'
-import type { Birthday } from '../../mock/data'
+import { supabase } from '../../lib/supabase'
 import './BirthdayWidget.css'
 
+interface BirthdayUser {
+  id: string
+  name: string
+  job_position: string
+  avatar_url: string | null
+  birthday: string // YYYY-MM-DD
+}
+
+function formatBirthdayLabel(birthday: string): string {
+  const today = new Date()
+  const bday = new Date(birthday)
+  const year = today.getFullYear()
+
+  const bdayThis  = new Date(year, bday.getMonth(), bday.getDate())
+  const todayMid  = new Date(year, today.getMonth(), today.getDate())
+  const tomorrow  = new Date(year, today.getMonth(), today.getDate() + 1)
+
+  if (bdayThis.getTime() === todayMid.getTime()) return 'Today'
+  if (bdayThis.getTime() === tomorrow.getTime()) return 'Tomorrow'
+
+  return bdayThis.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+}
+
 interface BirthdayWidgetProps {
-  birthdays: Birthday[]
   onViewAll?: () => void
 }
 
-export default function BirthdayWidget({ birthdays, onViewAll }: BirthdayWidgetProps) {
+export default function BirthdayWidget({ onViewAll }: BirthdayWidgetProps) {
+  const [users, setUsers] = useState<BirthdayUser[]>([])
+
+  useEffect(() => {
+    const currentMonth = new Date().getMonth() + 1 // 1–12
+    supabase
+      .from('users')
+      .select('id, name, job_position, avatar_url, birthday')
+      .not('birthday', 'is', null)
+      .then(({ data, error }) => {
+        console.log('[BirthdayWidget] fetch — data:', data, 'error:', error)
+        if (!data) return
+        const filtered = (data as BirthdayUser[]).filter(
+          (u) => new Date(u.birthday).getMonth() + 1 === currentMonth
+        )
+        setUsers(filtered)
+      })
+  }, [])
+
   return (
     <div className="bday-widget">
       {/* ── Header ── */}
@@ -23,20 +64,23 @@ export default function BirthdayWidget({ birthdays, onViewAll }: BirthdayWidgetP
 
       {/* ── List ── */}
       <ul className="bday-widget__list">
-        {birthdays.map((person, i) => (
-          <li key={person.id} className="bday-widget__item">
+        {users.length === 0 && (
+          <li className="bday-widget__empty">No birthdays this month</li>
+        )}
+        {users.map((user, i) => (
+          <li key={user.id} className="bday-widget__item">
             <div className="bday-widget__row">
               {/* Avatar with 🎉 badge */}
               <div className="bday-widget__avatar-wrap">
-                {void console.log('[BirthdayWidget] avatar_url for', person.name, ':', person.avatar_url)}
-                {person.avatar_url
+                {void console.log('[BirthdayWidget] avatar_url for', user.name, ':', user.avatar_url)}
+                {user.avatar_url
                   ? <img
-                      src={person.avatar_url}
-                      alt={person.name}
-                      onError={(e) => console.log('[BirthdayWidget] img error:', e, person.avatar_url)}
+                      src={user.avatar_url}
+                      alt={user.name}
+                      onError={(e) => console.log('[BirthdayWidget] img error:', e, user.avatar_url)}
                       className="bday-widget__avatar bday-widget__avatar--img"
                     />
-                  : <div className="bday-widget__avatar" aria-hidden="true">{person.name[0]}</div>
+                  : <div className="bday-widget__avatar" aria-hidden="true">{user.name[0]}</div>
                 }
                 <span className="bday-widget__badge" aria-hidden="true">🎉</span>
               </div>
@@ -44,14 +88,14 @@ export default function BirthdayWidget({ birthdays, onViewAll }: BirthdayWidgetP
               {/* Profile */}
               <div className="bday-widget__profile">
                 <div className="bday-widget__info">
-                  <span className="bday-widget__name">{person.name}</span>
-                  <span className="bday-widget__position">{person.role}</span>
+                  <span className="bday-widget__name">{user.name}</span>
+                  <span className="bday-widget__position">{user.job_position}</span>
                 </div>
-                <span className="bday-widget__date">{person.date}</span>
+                <span className="bday-widget__date">{formatBirthdayLabel(user.birthday)}</span>
               </div>
             </div>
 
-            {i < birthdays.length - 1 && <hr className="bday-widget__divider" />}
+            {i < users.length - 1 && <hr className="bday-widget__divider" />}
           </li>
         ))}
       </ul>

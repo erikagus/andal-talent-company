@@ -3,7 +3,6 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { Button } from '../../design-system'
 import { Plus } from '@phosphor-icons/react'
 import { Navbar, NewsCard, BirthdayWidget } from '../../components'
-import { birthdays } from '../../mock/data'
 import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../lib/supabase'
 import './HomePage.css'
@@ -92,7 +91,7 @@ export default function HomePage() {
                 Create News
               </Button>
             )}
-            <BirthdayWidget birthdays={birthdays} onViewAll={() => navigate('/calendar')} />
+            <BirthdayWidget onViewAll={() => navigate('/calendar')} />
           </aside>
 
         </div>
