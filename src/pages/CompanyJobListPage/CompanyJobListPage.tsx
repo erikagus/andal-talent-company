@@ -1,4 +1,5 @@
 import { MapPin, Briefcase, Users, Globe, ClockUser, ClockClockwise } from '@phosphor-icons/react'
+import logoCompany from '../../assets/logo-company.png'
 import { Button } from '../../design-system'
 import { Navbar } from '../../components'
 import './CompanyJobListPage.css'
@@ -68,7 +69,7 @@ function JobCard({ title, location, type, experience, daysLeft, salary }: Job) {
       {/* Avatar + title + company */}
       <div className="job-card__header">
         <div className="job-card__avatar">
-          <img className="job-card__avatar-img" src="/src/assets/logo-company.png" alt="" />
+          <img className="job-card__avatar-img" src="{logoCompany}" alt="" />
         </div>
         <div className="job-card__title-group">
           <h3 className="job-card__title">{title}</h3>
@@ -129,7 +130,7 @@ export default function CompanyJobListPage() {
             <div className="company-card__logo-upload">
               <img
                 className="company-card__logo-placeholder"
-                src="/src/assets/logo-company.png"
+                src="{logoCompany}"
                 alt={COMPANY.name}
               />
             </div>
