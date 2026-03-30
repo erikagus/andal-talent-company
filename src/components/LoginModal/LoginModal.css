@@ -1,0 +1,158 @@
+/* LoginModal — full-screen overlay + centered card */
+
+.login-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(16, 24, 40, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+/* Card */
+.login-modal {
+  position: relative;
+  background: var(--state-layers-background-color-main-bg-primary);
+  border: 1px solid var(--state-layers-border-color-main-border-primary);
+  border-radius: 16px;
+  padding: 40px;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 20px 60px rgba(16, 24, 40, 0.18);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Close × button */
+.login-modal__close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  line-height: 1;
+  color: var(--state-layers-foreground-color-main-fg-tertiary);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+}
+.login-modal__close:hover {
+  background: var(--state-layers-background-color-main-bg-primary-alt);
+  color: var(--state-layers-text-color-main-text-primary);
+}
+
+/* Brand block */
+.login-modal__brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.login-modal__logo {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+/* "Sign in to Andal" — 22px Bold gray-900 */
+.login-modal__title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--state-layers-text-color-main-text-primary);
+}
+
+/* Subtitle — 14px Regular gray-500 */
+.login-modal__subtitle {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--state-layers-foreground-color-main-fg-tertiary);
+}
+
+/* Form — stacked fields + button */
+.login-modal__form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* TextField fills full width */
+.login-modal__form .text-field {
+  width: 100%;
+}
+
+/* Password field wrapper — positions eye toggle over the input */
+.login-modal__pw-wrap {
+  position: relative;
+}
+
+/* Prevent typed text from sliding under the eye button */
+.login-modal__pw-wrap .text-field__input {
+  padding-right: 36px;
+}
+
+/* Eye toggle — sits flush inside the input box right edge */
+.login-modal__pw-toggle {
+  position: absolute;
+  right: 1px;
+  bottom: 1px;
+  height: 36px;
+  width: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+  color: var(--state-layers-foreground-color-main-fg-tertiary);
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.login-modal__pw-toggle:hover {
+  color: var(--state-layers-text-color-main-text-primary);
+}
+
+/* Sign In button fills full width */
+.login-modal__form .btn {
+  width: 100%;
+  justify-content: center;
+}
+
+/* Error message — 14px red */
+.login-modal__error {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--schemes-error-error-600, #d92d20);
+}
+
+/* Credential hint — small gray helper text */
+.login-modal__hint {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--state-layers-foreground-color-main-fg-tertiary);
+  text-align: center;
+  border-top: 1px solid var(--state-layers-border-color-main-border-primary);
+  padding-top: 16px;
+}

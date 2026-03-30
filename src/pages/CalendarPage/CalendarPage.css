@@ -1,0 +1,554 @@
+/* CalendarPage — clean minimal calendar with design-system tokens */
+
+/* ── FullCalendar CSS variable overrides ────────────────────────────── */
+
+.cal-page {
+  min-height: 100vh;
+  background: var(--state-layers-background-color-main-bg-primary-alt);
+
+  --fc-border-color:       var(--state-layers-border-color-main-border-secondary);
+  --fc-today-bg-color:     transparent;
+  --fc-page-bg-color:      var(--state-layers-background-color-main-bg-primary);
+  --fc-neutral-bg-color:   var(--state-layers-background-color-main-bg-primary-alt);
+  --fc-neutral-text-color: var(--state-layers-text-color-main-text-secondary);
+  --fc-small-font-size:    var(--font-size-xs);
+  --fc-event-bg-color:     transparent;
+  --fc-event-border-color: transparent;
+  --fc-event-text-color:   var(--state-layers-text-color-main-text-primary);
+}
+
+/* ── Color family tokens — consumed by event card rules below ─────────
+   Each family defines 4 custom props on the .fc-event element:
+     --cal-bg      pastel background (50 shade)
+     --cal-border  left-border accent (solid/500–600 shade)
+     --cal-text    title + time text (dark 600–700 shade)
+     --cal-dot     initials circle background (solid 600 shade)
+   ──────────────────────────────────────────────────────────────────── */
+
+.cal-color-brand {
+  --cal-bg:     var(--state-layers-background-color-brand-bg-brand-primary);
+  --cal-border: var(--state-layers-border-color-brand-border-brand-solid);
+  --cal-text:   var(--state-layers-text-color-brand-text-brand-secondary);
+  --cal-dot:    var(--state-layers-background-color-brand-bg-brand-solid);
+}
+
+.cal-color-success {
+  --cal-bg:     var(--state-layers-background-color-state-bg-success-primary);
+  --cal-border: var(--state-layers-foreground-color-state-fg-success-primary);
+  --cal-text:   var(--state-layers-text-color-state-text-success-primary);
+  --cal-dot:    var(--state-layers-background-color-state-bg-success-solid);
+}
+
+.cal-color-warning {
+  --cal-bg:     var(--state-layers-background-color-state-bg-warning-primary);
+  --cal-border: var(--state-layers-foreground-color-state-fg-warning-primary);
+  --cal-text:   var(--state-layers-text-color-state-text-warning-primary);
+  --cal-dot:    var(--state-layers-background-color-state-bg-warning-solid);
+}
+
+.cal-color-error {
+  --cal-bg:     var(--state-layers-background-color-state-bg-error-primary);
+  --cal-border: var(--state-layers-foreground-color-state-fg-error-primary);
+  --cal-text:   var(--state-layers-text-color-state-text-error-primary);
+  --cal-dot:    var(--state-layers-background-color-state-bg-error-solid);
+}
+
+/* ── Page layout ─────────────────────────────────────────────────────── */
+
+.cal-page__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-5);
+}
+
+.cal-page__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--spacing-3);
+}
+
+.cal-page__heading-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.cal-page__back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: none;
+  border-radius: var(--radius-xs);
+  color: var(--state-layers-text-color-main-text-secondary);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s, color 0.15s;
+}
+
+.cal-page__back:hover {
+  background: var(--state-layers-background-color-main-bg-primary-hover);
+  color: var(--state-layers-text-color-main-text-primary);
+}
+
+.cal-page__heading {
+  margin: 0;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  color: var(--state-layers-text-color-main-text-primary);
+}
+
+/* ── View toggle ─────────────────────────────────────────────────────── */
+
+.cal-page__view-toggle {
+  display: flex;
+  border: 1px solid var(--state-layers-border-color-main-border-primary);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.cal-page__view-btn {
+  padding: var(--spacing-2) var(--spacing-4);
+  border: none;
+  border-right: 1px solid var(--state-layers-border-color-main-border-primary);
+  background: var(--state-layers-background-color-main-bg-primary);
+  color: var(--state-layers-text-color-main-text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semi-bold);
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.cal-page__view-btn:last-child { border-right: none; }
+
+.cal-page__view-btn:hover:not(.cal-page__view-btn--active) {
+  background: var(--state-layers-background-color-main-bg-primary-hover);
+  color: var(--state-layers-text-color-main-text-primary);
+}
+
+.cal-page__view-btn--active {
+  background: var(--state-layers-foreground-color-brand-fg-brand-primary);
+  color: var(--schemes-base-white);
+}
+
+/* ── Calendar wrapper ────────────────────────────────────────────────── */
+
+.cal-page__calendar {
+  background: var(--state-layers-background-color-main-bg-primary);
+  border: 1px solid var(--state-layers-border-color-main-border-primary);
+  border-radius: var(--radius-base);
+  overflow: hidden;
+  padding: var(--spacing-5);
+}
+
+/* ── FullCalendar base ───────────────────────────────────────────────── */
+
+.cal-page .fc { font-family: inherit; }
+
+/* Toolbar title */
+.cal-page .fc .fc-toolbar-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--state-layers-text-color-main-text-primary);
+}
+
+/* ── Day column headers — SUN MON TUE … ──────────────────────────────── */
+
+.cal-page .fc .fc-col-header-cell {
+  background: transparent;
+  border-bottom: 1px solid var(--state-layers-border-color-main-border-secondary);
+}
+
+.cal-page .fc .fc-col-header-cell-cushion {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semi-bold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--state-layers-text-color-main-text-tertiary);
+  text-decoration: none;
+  padding: var(--spacing-2) var(--spacing-1);
+  display: inline-block;
+}
+
+/* ── Day cells ───────────────────────────────────────────────────────── */
+
+/* Date number — top-left */
+.cal-page .fc .fc-daygrid-day-number {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semi-bold);
+  color: var(--state-layers-text-color-main-text-secondary);
+  text-decoration: none;
+  padding: var(--spacing-2) var(--spacing-2) var(--spacing-1);
+  line-height: 1;
+}
+
+/* Outside-month dates — dimmed */
+.cal-page .fc .fc-day-other .fc-daygrid-day-number {
+  color: var(--state-layers-text-color-main-text-disabled);
+}
+
+/* ── Today highlight ─────────────────────────────────────────────────── */
+
+.cal-page .fc .fc-day-today {
+  background: var(--schemes-brand-brand-50) !important;
+}
+
+/* Today date number — brand-colored circle */
+.cal-page .fc .fc-day-today .fc-daygrid-day-number {
+  width: 24px;
+  height: 24px;
+  background: var(--state-layers-foreground-color-brand-fg-brand-primary);
+  color: var(--schemes-base-white);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: var(--spacing-1) var(--spacing-1) 0;
+}
+
+/* ── Strip FullCalendar's default event coloring ──────────────────────── */
+
+.cal-page .fc .fc-event {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  cursor: pointer;
+}
+
+/* ── Daygrid (month) event card ───────────────────────────────────────── */
+
+.cal-page .fc .fc-daygrid-event {
+  background: var(--cal-bg, var(--state-layers-background-color-brand-bg-brand-primary)) !important;
+  border-left: 3px solid var(--cal-border, var(--state-layers-border-color-brand-border-brand-solid)) !important;
+  border-radius: 0 var(--radius-xs) var(--radius-xs) 0 !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+  margin: 2px var(--spacing-1) !important;
+  padding: 0 !important;
+  overflow: hidden;
+}
+
+.cal-page .fc .fc-daygrid-event:hover {
+  filter: brightness(0.97);
+}
+
+/* ── Timegrid (week / day) event block ────────────────────────────────── */
+
+.cal-page .fc .fc-timegrid-event {
+  background: var(--cal-bg, var(--state-layers-background-color-brand-bg-brand-primary)) !important;
+  border-left: 3px solid var(--cal-border, var(--state-layers-border-color-brand-border-brand-solid)) !important;
+  border-top: none !important;
+  border-right: none !important;
+  border-bottom: none !important;
+  border-radius: 0 var(--radius-xs) var(--radius-xs) 0 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.07) !important;
+}
+
+.cal-page .fc .fc-timegrid-event:hover {
+  filter: brightness(0.97);
+}
+
+/* ── Event card content ───────────────────────────────────────────────── */
+
+.cal-event {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: var(--spacing-1) var(--spacing-2) var(--spacing-1);
+  overflow: hidden;
+  min-width: 0;
+  width: 100%;
+}
+
+/* ── Avatar / initials / icon — 28px circle ───────────────────────────── */
+
+.cal-event__avatar-wrap {
+  flex-shrink: 0;
+  margin-bottom: 2px;
+}
+
+.cal-event__avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Real photo */
+.cal-event__avatar--photo {
+  object-fit: cover;
+  border: 1.5px solid var(--state-layers-border-color-main-border-primary);
+  background: none;
+}
+
+/* Initials circle — uses family's solid color */
+.cal-event__avatar--initials {
+  background: var(--cal-dot, var(--state-layers-background-color-brand-bg-brand-solid));
+  color: var(--schemes-base-white);
+  font-size: 10px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+}
+
+/* Company icon circle */
+.cal-event__avatar--icon {
+  background: var(--state-layers-background-color-main-bg-primary-alt);
+  color: var(--state-layers-text-color-main-text-secondary);
+}
+
+/* ── Time text ────────────────────────────────────────────────────────── */
+
+.cal-event__time {
+  font-size: 10px;
+  font-weight: var(--font-weight-semi-bold);
+  color: var(--cal-text, var(--state-layers-text-color-brand-text-brand-secondary));
+  opacity: 0.7;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+/* ── Event title ──────────────────────────────────────────────────────── */
+
+.cal-event__label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semi-bold);
+  color: var(--cal-text, var(--state-layers-text-color-brand-text-brand-secondary));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  max-width: 100%;
+  line-height: 1.3;
+}
+
+/* In timegrid, allow the title to wrap to 2 lines */
+.cal-page .fc-timegrid .cal-event__label {
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── "+X more" overflow link ─────────────────────────────────────────── */
+
+.cal-page .fc .fc-daygrid-more-link {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semi-bold);
+  color: var(--state-layers-foreground-color-brand-fg-brand-primary);
+  padding: 2px var(--spacing-2);
+  border-radius: var(--radius-2xs);
+  text-decoration: none;
+  margin: 0 var(--spacing-1);
+  display: inline-block;
+  transition: background 0.1s;
+}
+
+.cal-page .fc .fc-daygrid-more-link:hover {
+  background: var(--state-layers-background-color-brand-bg-brand-primary);
+}
+
+/* Popover for overflow events */
+.cal-page .fc .fc-more-popover {
+  border: 1px solid var(--state-layers-border-color-main-border-primary);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.cal-page .fc .fc-more-popover .fc-popover-header {
+  background: var(--state-layers-background-color-main-bg-primary-alt);
+  padding: var(--spacing-2) var(--spacing-3);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semi-bold);
+  color: var(--state-layers-text-color-main-text-secondary);
+}
+
+.cal-page .fc .fc-more-popover .fc-popover-body {
+  background: var(--state-layers-background-color-main-bg-primary);
+  padding: var(--spacing-2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+/* ── FC toolbar nav buttons ──────────────────────────────────────────── */
+
+.cal-page .fc .fc-button {
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semi-bold);
+  padding: var(--spacing-1) var(--spacing-3);
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--state-layers-border-color-main-border-primary);
+  background: var(--state-layers-background-color-main-bg-primary);
+  color: var(--state-layers-text-color-main-text-primary);
+  box-shadow: none;
+  transition: background 0.15s, color 0.15s;
+  text-transform: capitalize;
+}
+
+.cal-page .fc .fc-button:hover {
+  background: var(--state-layers-background-color-main-bg-primary-hover);
+  border-color: var(--state-layers-border-color-main-border-primary);
+  color: var(--state-layers-text-color-main-text-primary);
+}
+
+.cal-page .fc .fc-button:focus,
+.cal-page .fc .fc-button:focus-visible {
+  box-shadow: 0 0 0 2px var(--schemes-brand-brand-100);
+  outline: none;
+}
+
+.cal-page .fc .fc-button-primary:not(:disabled):active,
+.cal-page .fc .fc-button-active {
+  background: var(--state-layers-foreground-color-brand-fg-brand-primary) !important;
+  border-color: var(--state-layers-foreground-color-brand-fg-brand-primary) !important;
+  color: var(--schemes-base-white) !important;
+}
+
+/* ── Timegrid slot labels + now indicator ────────────────────────────── */
+
+.cal-page .fc .fc-timegrid-slot-label-cushion {
+  font-size: var(--font-size-xs);
+  color: var(--state-layers-text-color-main-text-tertiary);
+  padding-right: var(--spacing-2);
+}
+
+.cal-page .fc .fc-timegrid-now-indicator-line {
+  border-color: var(--state-layers-foreground-color-brand-fg-brand-primary);
+}
+
+.cal-page .fc .fc-timegrid-now-indicator-arrow {
+  border-top-color: var(--state-layers-foreground-color-brand-fg-brand-primary);
+  border-bottom-color: var(--state-layers-foreground-color-brand-fg-brand-primary);
+}
+
+/* ── Event modal ─────────────────────────────────────────────────────── */
+
+.cal-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-4);
+}
+
+.cal-modal {
+  position: relative;
+  width: 340px;
+  background: var(--state-layers-background-color-main-bg-primary);
+  border: 1px solid var(--state-layers-border-color-main-border-primary);
+  border-radius: var(--radius-base);
+  padding: var(--spacing-7) var(--spacing-6) var(--spacing-6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-4);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+.cal-modal__close {
+  position: absolute;
+  top: var(--spacing-3);
+  right: var(--spacing-3);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  border-radius: var(--radius-xs);
+  color: var(--state-layers-text-color-main-text-tertiary);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.cal-modal__close:hover {
+  background: var(--state-layers-background-color-main-bg-primary-hover);
+  color: var(--state-layers-text-color-main-text-primary);
+}
+
+.cal-modal__avatar-wrap { flex-shrink: 0; }
+
+.cal-modal__avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--state-layers-background-color-brand-bg-brand-solid);
+  color: var(--schemes-base-white);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cal-modal__avatar--img {
+  object-fit: cover;
+  background: none;
+  border: 2px solid var(--state-layers-border-color-main-border-primary);
+  display: block;
+}
+
+.cal-modal__avatar--company {
+  background: var(--state-layers-background-color-main-bg-primary-alt);
+  color: var(--state-layers-text-color-main-text-secondary);
+}
+
+.cal-modal__info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-1);
+  text-align: center;
+}
+
+.cal-modal__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semi-bold);
+  color: var(--state-layers-foreground-color-brand-fg-brand-primary);
+  background: var(--state-layers-background-color-brand-bg-brand-primary);
+  padding: 2px var(--spacing-2);
+  border-radius: var(--radius-2xs);
+}
+
+.cal-modal__title {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  color: var(--state-layers-text-color-main-text-primary);
+}
+
+.cal-modal__role {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  color: var(--state-layers-text-color-main-text-secondary);
+}
+
+.cal-modal__date {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  color: var(--state-layers-foreground-color-main-fg-tertiary);
+}

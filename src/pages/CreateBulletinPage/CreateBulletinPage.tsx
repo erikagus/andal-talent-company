@@ -1,5 +1,5 @@
-import { useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useRef, useState, useEffect } from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Underline from '@tiptap/extension-underline'
@@ -8,11 +8,19 @@ import TextAlign from '@tiptap/extension-text-align'
 import { Button, TextField } from 'design-system'
 import { PaperPlaneTilt } from '@phosphor-icons/react'
 import { Navbar } from '../../components'
+import { useAuth } from '../../context/AuthContext'
+import { supabase } from '../../lib/supabase'
 import './CreateBulletinPage.css'
 
 export default function CreateBulletinPage() {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const editId = searchParams.get('edit')
+  const { currentUser } = useAuth()
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const [post,       setPost]       = useState<{ title: string; content: string } | null>(null)
+  const [title,      setTitle]      = useState('')
+  const [publishing, setPublishing] = useState(false)
 
   const editor = useEditor({
     extensions: [
@@ -27,12 +35,64 @@ export default function CreateBulletinPage() {
     },
   })
 
+  // Step 1 — fetch post data once when editId is available (editor not needed here)
+  useEffect(() => {
+    if (!editId) return
+    supabase
+      .from('posts')
+      .select('title, content')
+      .eq('id', editId)
+      .single()
+      .then(({ data, error }) => {
+        console.log('[CreateBulletinPage] fetch post — data:', data, 'error:', error)
+        if (error || !data) return
+        setTitle(data.title ?? '')
+        setPost({ title: data.title ?? '', content: data.content ?? '' })
+      })
+  }, [editId])
+
+  // Step 2 — push content into Tiptap once both editor and post are ready
+  useEffect(() => {
+    if (editor && post?.content) {
+      editor.commands.setContent(post.content)
+    }
+  }, [editor, post])
+
   function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     if (!file || !editor) return
     const url = URL.createObjectURL(file)
     editor.chain().focus().setImage({ src: url }).run()
     e.target.value = ''
+  }
+
+  async function handlePublish() {
+    if (!title.trim() || !editor) return
+    const content = editor.getHTML()
+    console.log('[CreateBulletinPage] handlePublish →', { editId, title: title.trim(), content })
+    setPublishing(true)
+    if (editId) {
+      const { error } = await supabase
+        .from('posts')
+        .update({ title: title.trim(), content, updated_at: new Date().toISOString() })
+        .eq('id', editId)
+      console.log('[CreateBulletinPage] update error:', error)
+      setPublishing(false)
+      if (error) {
+        alert('Save failed: ' + error.message)
+      } else {
+        navigate(-1)
+      }
+    } else {
+      const { error } = await supabase.from('posts').insert({
+        title:     title.trim(),
+        content,
+        author_id: currentUser?.id ?? null,
+      })
+      console.log('[CreateBulletinPage] insert error:', error)
+      setPublishing(false)
+      if (!error) navigate('/')
+    }
   }
 
   if (!editor) return null
@@ -45,7 +105,9 @@ export default function CreateBulletinPage() {
 
         {/* ── Heading ── */}
         <div className="create-page__heading">
-          <h1 className="create-page__title">Create New Bulletin</h1>
+          <h1 className="create-page__title">
+            {editId ? 'Edit Bulletin' : 'Create New Bulletin'}
+          </h1>
           <p className="create-page__subtitle">
             Fill in the details below to post to the company page.
           </p>
@@ -64,6 +126,8 @@ export default function CreateBulletinPage() {
                 labelText="Title News"
                 mandatory
                 placeholder="Input title news"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
               />
 
               {/* Rich text editor */}
@@ -196,9 +260,10 @@ export default function CreateBulletinPage() {
                 size="Medium"
                 color="Primary"
                 rightIcon={PaperPlaneTilt}
-                onClick={() => navigate('/manage-posting')}
+                onClick={handlePublish}
+                disabled={publishing || !title.trim()}
               >
-                Publish
+                {publishing ? 'Publishing…' : (editId ? 'Save Changes' : 'Publish')}
               </Button>
               <Button variant="Outline" size="Medium" color="Primary">
                 Preview
@@ -207,7 +272,7 @@ export default function CreateBulletinPage() {
                 variant="Plain"
                 size="Medium"
                 color="Secondary"
-                onClick={() => navigate('/manage-posting')}
+                onClick={() => navigate('/')}
               >
                 Cancel
               </Button>

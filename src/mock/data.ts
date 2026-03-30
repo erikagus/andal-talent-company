@@ -54,10 +54,10 @@ export const posts: Post[] = [
 ]
 
 export const birthdays: Birthday[] = [
-  { id: 1, name: 'Budi Santoso',   role: 'Sales Executive',          date: 'Today',    avatar: undefined },
-  { id: 2, name: 'Alisa Thompson', role: 'Senior Software Engineer', date: 'Tomorrow', avatar: undefined },
-  { id: 3, name: 'David Chen',     role: 'Marketing Manager',        date: 'Mar 21',   avatar: undefined },
-  { id: 4, name: 'Sarah Johnson',  role: 'HR Specialist',            date: 'Mar 25',   avatar: undefined },
+  { id: 1, name: 'Budi Santoso',   role: 'Sales Executive',          date: 'Today',    avatar: '/src/assets/budi.png' },
+  { id: 2, name: 'Alisa Thompson', role: 'Senior Software Engineer', date: 'Tomorrow', avatar: '/src/assets/alisa.png' },
+  { id: 3, name: 'David Chen',     role: 'Marketing Manager',        date: 'Mar 21',   avatar: '/src/assets/david.png' },
+  { id: 4, name: 'Sarah Johnson',  role: 'HR Specialist',            date: 'Mar 25',   avatar: '/src/assets/sarah.png' },
 ]
 
 export const currentUser: CurrentUser = {

@@ -41,16 +41,18 @@
   background: var(--state-layers-background-color-brand-bg-brand-solid);
 }
 
-.navbar__logo svg {
+.navbar__logo img {
   width: 32px;
   height: 32px;
+  object-fit: contain;
+  display: block;
 }
 
 /* PT Nike Indonesia — 20px Bold gray-900 line-height 120% */
 .navbar__company {
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 1.2;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
   color: var(--state-layers-text-color-main-text-primary);
   white-space: nowrap;
 }
@@ -90,12 +92,20 @@
   border-radius: 50%;
   background: var(--state-layers-background-color-brand-bg-brand-solid);
   color: var(--state-layers-text-color-main-text-primary-on-brand);
-  font-size: 14px;
-  font-weight: 600;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semi-bold);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+}
+
+/* Image avatar — circle-cropped portrait */
+.navbar__avatar--img {
+  object-fit: cover;
+  background: none;
+  border: 1px solid var(--state-layers-border-color-main-border-primary);
+  display: block;
 }
 
 .navbar__user-info {
@@ -105,17 +115,17 @@
 
 /* Admin User — 14px SemiBold gray-900 */
 .navbar__user-name {
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1.4;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semi-bold);
+  line-height: var(--line-height-default);
   color: var(--state-layers-text-color-main-text-primary);
 }
 
 /* Admin — 14px Regular gray-500 */
 .navbar__user-role {
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.4;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-default);
   color: var(--state-layers-foreground-color-main-fg-tertiary);
 }
 
@@ -135,14 +145,14 @@
   position: relative;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--spacing-2);
   height: 64px;
-  padding: 0 16px;
+  padding: 0 var(--spacing-4);
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
   color: var(--state-layers-foreground-color-main-fg-tertiary);
   white-space: nowrap;
   transition: color 0.15s;
@@ -154,16 +164,16 @@
 /* Active: brand color + 3px bottom indicator */
 .navbar__tab--active {
   color: var(--state-layers-foreground-color-brand-fg-brand-primary);
-  font-weight: 600;
+  font-weight: var(--font-weight-semi-bold);
 }
 .navbar__tab-indicator {
   position: absolute;
   bottom: 0;
-  left: 16px;
-  right: 16px;
+  left: var(--spacing-4);
+  right: var(--spacing-4);
   height: 3px;
   background: var(--state-layers-foreground-color-brand-fg-brand-primary);
-  border-radius: 2px 2px 0 0;
+  border-radius: var(--radius-2xs) var(--radius-2xs) 0 0;
 }
 
 /* Divider — gray-400 (matches Figma divider token 4033:111) */

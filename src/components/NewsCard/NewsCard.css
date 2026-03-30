@@ -1,77 +1,90 @@
-/* NewsCard — Figma component 162:19846
-   VERTICAL | pad 24 | gap 16 | r:16
-   fill: bg-primary (white) | stroke: border-primary (gray-300) 1px
+/* NewsCard — Figma 162:19846
+   VERTICAL | pad 24 | gap 16 | r:12 | bg-primary | border-primary 1px
    shadow: 0 1px 4px 1px rgba(100,100,110,0.08) */
 
 .news-card {
   background: var(--state-layers-background-color-main-bg-primary);
   border: 1px solid var(--state-layers-border-color-main-border-primary);
-  border-radius: 16px;
+  border-radius: var(--radius-base);
   box-shadow: 0 1px 4px 1px rgba(100, 100, 110, 0.08);
-  padding: 24px;
+  padding: var(--spacing-6);
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--spacing-4);
 }
 
-/* ── Header row ── */
+/* ── Header row — HORIZONTAL SPACE_BETWEEN, height ~50px ── */
 .news-card__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
+/* Author left — HORIZONTAL gap:12, align center, flex:1 */
 .news-card__author {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--spacing-3);
+  flex: 1;
+  min-width: 0;
 }
 
-/* 40×40 circle avatar */
+/* 40×40 circle avatar — initials or image */
 .news-card__avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
   background: var(--state-layers-background-color-brand-bg-brand-solid);
   color: var(--state-layers-text-color-main-text-primary-on-brand);
-  font-size: 14px;
-  font-weight: 600;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semi-bold);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
 }
 
+/* Author info — VERTICAL */
 .news-card__author-info {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
-/* Admin User — 14px SemiBold gray-900, line-height 140% */
+/* Author name — 14px SemiBold text-primary */
 .news-card__author-name {
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1.4;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semi-bold);
+  line-height: var(--line-height-default);
   color: var(--state-layers-text-color-main-text-primary);
-  text-align: left;
 }
 
-/* Admin — 14px Regular gray-500, line-height 140% */
+/* Author role — 14px Regular fg-tertiary */
 .news-card__author-role {
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.4;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-default);
   color: var(--state-layers-foreground-color-main-fg-tertiary);
-  text-align: left;
 }
 
-/* 3-dot menu wrap — relative for dropdown positioning */
+/* Date + edited indicator */
+.news-card__meta {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-default);
+  color: var(--state-layers-foreground-color-main-fg-tertiary);
+}
+
+.news-card__edited {
+  color: var(--state-layers-foreground-color-brand-fg-brand-primary);
+}
+
+/* ── 3-dot menu — 36×36 circle ── */
 .news-card__menu-wrap {
   position: relative;
   flex-shrink: 0;
 }
 
-/* 3-dot menu — 36×36 circle */
 .news-card__menu-btn {
   width: 36px;
   height: 36px;
@@ -85,19 +98,20 @@
   justify-content: center;
   transition: background 0.15s;
 }
+
 .news-card__menu-btn:hover {
   background: var(--state-layers-background-color-main-bg-primary-hover);
   color: var(--state-layers-foreground-color-main-fg-tertiary);
 }
 
-/* Dropdown menu */
+/* Dropdown */
 .news-card__dropdown {
   position: absolute;
-  top: calc(100% + 4px);
+  top: calc(100% + var(--spacing-1));
   right: 0;
   background: var(--state-layers-background-color-main-bg-primary);
   border: 1px solid var(--state-layers-border-color-main-border-primary);
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   min-width: 120px;
   overflow: hidden;
@@ -107,62 +121,77 @@
 .news-card__dropdown-item {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--spacing-2);
   width: 100%;
-  padding: 10px 14px;
+  padding: var(--spacing-2) var(--spacing-3);
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 14px;
-  font-weight: 400;
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
   color: var(--state-layers-text-color-main-text-primary);
   text-align: left;
   transition: background 0.15s;
 }
+
 .news-card__dropdown-item:hover {
   background: var(--state-layers-background-color-main-bg-primary-hover);
 }
+
 .news-card__dropdown-item--delete {
-  color: var(--schemes-error-error-500, #ef4444);
-}
-.news-card__dropdown-item--delete:hover {
-  background: var(--schemes-error-error-50, #fef2f2);
+  color: var(--schemes-error-error-500);
 }
 
-/* ── Body ── */
+.news-card__dropdown-item--delete:hover {
+  background: var(--schemes-error-error-50);
+}
+
+/* ── Body — VERTICAL gap:12 ── */
 .news-card__body {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--spacing-3);
 }
 
-/* Title — 20px SemiBold gray-900, line-height 140% */
+/* Title — 16px Bold text-primary (Figma: fontWeight 700, fontSize 16) */
 .news-card__title {
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 1.4;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-default);
   color: var(--state-layers-text-color-main-text-primary);
   margin: 0;
-  text-align: left;
 }
 
-/* Body text — 14px Regular gray-700, line-height 140% */
+/* Body text — 14px Regular text-secondary */
 .news-card__text {
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.4;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-default);
   color: var(--state-layers-text-color-main-text-secondary);
-  margin: 0;
-  text-align: left;
 }
+
+/* Reset tiptap HTML output inside card */
+.news-card__text p {
+  margin: 0 0 var(--spacing-2);
+}
+.news-card__text p:last-child { margin-bottom: 0; }
+.news-card__text ul,
+.news-card__text ol {
+  margin: 0 0 var(--spacing-2);
+  padding-left: var(--spacing-5);
+}
+.news-card__text strong { font-weight: var(--font-weight-bold); }
+.news-card__text em { font-style: italic; }
 
 /* Image — fill width, 400px height, r:8 */
 .news-card__image {
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   overflow: hidden;
   width: 100%;
   height: 400px;
 }
+
 .news-card__image img {
   width: 100%;
   height: 100%;

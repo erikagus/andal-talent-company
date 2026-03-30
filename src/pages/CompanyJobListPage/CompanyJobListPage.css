@@ -1,0 +1,304 @@
+/* CompanyJobListPage — Figma frame 188:24435 "Company Job List" 1440×1095 */
+
+.company-job-list-page {
+  min-height: 100vh;
+  background: var(--state-layers-background-color-main-bg-primary-alt);
+}
+
+.company-job-list-page__main {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  box-sizing: border-box;
+}
+
+/* ─── Company Profile Card ─────────────────────────────────────────── */
+
+.company-card {
+  background: var(--state-layers-background-color-main-bg-primary);
+  border: 1px solid var(--state-layers-border-color-main-border-primary);
+  border-radius: 16px;
+  padding: 32px;
+}
+
+/* Horizontal: logo (160px) + info (fills remaining), gap 16px */
+.company-card__body {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+/* 160×160 bordered placeholder for the company logo */
+.company-card__logo-upload {
+  width: 160px;
+  height: 160px;
+  flex-shrink: 0;
+  border: 1px solid var(--state-layers-border-color-main-border-primary);
+  border-radius: 8px;
+  padding: 16px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Company logo image */
+.company-card__logo-placeholder {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Company info column — fills remaining width */
+.company-card__info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Company name — 24px Bold gray-900 */
+.company-card__name {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--state-layers-text-color-main-text-primary);
+}
+
+/* Two rows of meta items */
+.company-card__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.company-card__meta-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.company-card__meta-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--state-layers-text-color-main-text-secondary);
+}
+
+.company-card__meta-icon {
+  flex-shrink: 0;
+  color: var(--state-layers-foreground-color-brand-fg-brand-primary);
+}
+
+.company-card__link {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--state-layers-foreground-color-brand-fg-brand-primary);
+  text-decoration: none;
+}
+.company-card__link:hover {
+  text-decoration: underline;
+}
+
+/* Description — 14px Regular gray-500 */
+.company-card__description {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--state-layers-foreground-color-main-fg-tertiary);
+}
+
+/* ─── Job List Section ─────────────────────────────────────────────── */
+
+.job-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-top: 8px;
+}
+
+.job-section__header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* "Job List" — 20px Bold gray-900 */
+.job-section__title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--state-layers-text-color-main-text-primary);
+}
+
+/* "Updated 5 minutes ago" — 14px Regular gray-500 */
+.job-section__subtitle {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--state-layers-foreground-color-main-fg-tertiary);
+}
+
+/* 3 cards per row at 1248px content (3×408 + 2×12 = 1248px), wraps to 4th */
+.job-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* ─── Job Card ─────────────────────────────────────────────────────── */
+
+/* White card — 408px wide (3 per row), border-radius 12px, padding 16px, gap 12px */
+.job-card {
+  width: calc((100% - 24px) / 3);
+  background: var(--state-layers-background-color-main-bg-primary);
+  border: 1px solid var(--state-layers-border-color-main-border-primary);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-sizing: border-box;
+}
+
+/* Avatar (40×40) + title + company — horizontal, gap 12px */
+.job-card__header {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+/* 40×40 avatar box — gray-50 bg, border, border-radius 8px */
+.job-card__avatar {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  background: var(--state-layers-background-color-main-bg-primary-alt);
+  border: 1px solid var(--state-layers-border-color-main-border-primary);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.job-card__avatar-img {
+  width: 35px;
+  height: 35px;
+  object-fit: contain;
+  display: block;
+}
+
+.job-card__title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+/* Job title — 14px Bold gray-900, single line with truncation */
+.job-card__title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--state-layers-text-color-main-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Company name — 12px Regular gray-500 */
+.job-card__company {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--state-layers-foreground-color-main-fg-tertiary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Two-column meta — horizontal, gap 12px */
+.job-card__meta {
+  display: flex;
+  gap: 12px;
+}
+
+.job-card__meta-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+/* Each meta item — icon + text, gap 4px, 14px Regular gray-700 */
+.job-card__meta-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--state-layers-text-color-main-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.job-card__meta-icon {
+  flex-shrink: 0;
+  color: var(--state-layers-foreground-color-brand-fg-brand-primary);
+}
+
+/* Footer — top border, padding-top 12px, salary + action buttons */
+.job-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--state-layers-border-color-main-border-primary);
+}
+
+.job-card__salary {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* "Gaji/Bulan" — 10px Regular gray-500 */
+.job-card__salary-label {
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--state-layers-foreground-color-main-fg-tertiary);
+}
+
+/* Salary amount — 14px Bold gray-900 */
+.job-card__salary-amount {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--state-layers-text-color-main-text-primary);
+}
+
+/* Action buttons — horizontal, gap 8px */
+.job-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}

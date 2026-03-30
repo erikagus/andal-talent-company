@@ -51,7 +51,7 @@ export default function BirthdayWidget({ birthdays, onViewAll }: BirthdayWidgetP
       </ul>
 
       {/* ── View All ── */}
-      <Button variant="Outline" size="Large" color="Primary" onClick={onViewAll}>
+      <Button variant="Outline" size="Medium" color="Primary" onClick={onViewAll}>
         View All
       </Button>
     </div>

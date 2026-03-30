@@ -1,0 +1,307 @@
+/* OnboardingPage — Figma "Home" frame 179:23965 (company page) */
+
+.onboarding-page {
+  min-height: 100vh;
+  background: var(--state-layers-background-color-main-bg-primary-alt);
+}
+
+/* Rive confetti overlay — fixed, full-screen, non-interactive */
+.onboarding-page__confetti {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+}
+
+.onboarding-page__confetti canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Center the modal card vertically + horizontally */
+.onboarding-page__main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-7) var(--spacing-6);
+  min-height: calc(100vh - 75px); /* subtract navbar height */
+  box-sizing: border-box;
+}
+
+/* ── Modal card ────────────────────────────────────────────────────── */
+/* Figma: 636×768, white, border-radius 12, border gray-300, VERTICAL */
+
+.ob-modal {
+  width: 636px;
+  background: var(--state-layers-background-color-main-bg-primary);
+  border: 1px solid var(--state-layers-border-color-main-border-primary);
+  border-radius: var(--radius-base);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* 8px brand-color stripe at the top */
+.ob-modal__stripe {
+  height: 8px;
+  background: var(--state-layers-foreground-color-brand-fg-brand-primary);
+}
+
+/* Content area — padding 24, gap 24, vertical */
+.ob-modal__body {
+  padding: var(--spacing-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+/* ── Header section ────────────────────────────────────────────────── */
+/* Figma: 588×176, VERTICAL gap 8 */
+
+.ob-modal__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--spacing-2);
+}
+
+/* Avatar wrapper — 100×100 to contain the wavy ring around the 80px avatar */
+.ob-modal__avatar-wrap {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* 80×80 circle avatar — image, circle-cropped */
+.ob-modal__avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 1px solid var(--state-layers-border-color-main-border-primary);
+  object-fit: cover;
+  display: block;
+  flex-shrink: 0;
+}
+
+/* Material 3 wavy rotating ring — sits over avatar, rotates continuously */
+.ob-modal__spinner {
+  position: absolute;
+  inset: 0;
+  width: 100px;
+  height: 100px;
+  animation: ob-spinner-rotate 2s linear infinite;
+  transform-origin: center;
+}
+
+/*
+ * Wavy ring: 8 scallops, inner valleys r=42, outer peaks r=49, center (50,50)
+ * Inner hole: smooth circle r=40 — fill-rule="evenodd" subtracts it
+ */
+.ob-modal__spinner path {
+  fill: var(--schemes-brand-brand-500);
+}
+
+@keyframes ob-spinner-rotate {
+  to { transform: rotate(360deg); }
+}
+
+/* "Welcome to…" — 24px SemiBold gray-900 */
+.ob-modal__title {
+  margin: 0;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semi-bold);
+  line-height: 1.3;
+  color: var(--state-layers-text-color-main-text-primary);
+}
+
+/* User name highlight in title */
+.ob-modal__title-name {
+  color: var(--state-layers-foreground-color-brand-fg-brand-primary);
+}
+
+/* Subtitle — 14px Regular gray-700, constrained to ~458px per Figma */
+.ob-modal__subtitle {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  line-height: 1.5;
+  color: var(--state-layers-text-color-main-text-secondary);
+  max-width: 458px;
+}
+
+/* ── Inventory Checklist ───────────────────────────────────────────── */
+/* Figma: 588×396, VERTICAL gap 12 */
+
+.ob-modal__checklist {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+/* Each item — 90px, gray-50 bg, border gray-300, cr 12, pad 20, HORIZONTAL */
+.ob-item {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  height: 90px;
+  padding: var(--spacing-5);
+  background: var(--state-layers-background-color-main-bg-primary-alt);
+  border: 1px solid var(--state-layers-border-color-main-border-primary);
+  border-radius: var(--radius-base);
+  cursor: pointer;
+  text-align: left;
+  box-sizing: border-box;
+  transition: border-color 0.15s, background 0.15s;
+  font-family: inherit;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-default);
+  color: var(--state-layers-text-color-main-text-primary);
+}
+
+.ob-item:hover {
+  border-color: var(--state-layers-foreground-color-brand-fg-brand-primary);
+}
+
+.ob-item--checked {
+  background: color-mix(in srgb, var(--state-layers-foreground-color-brand-fg-brand-primary) 6%, var(--state-layers-background-color-main-bg-primary));
+  border-color: var(--state-layers-foreground-color-brand-fg-brand-primary);
+}
+
+/* Icon wrap — 64px wide, centers the 48×48 box vertically */
+.ob-item__icon-wrap {
+  width: 64px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* 48×48 white box with shadow-like border, cr 8 */
+.ob-item__icon-box {
+  width: 48px;
+  height: 48px;
+  background: var(--state-layers-background-color-main-bg-primary);
+  border: 1px solid var(--state-layers-border-color-main-border-primary);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ob-item__icon {
+  color: var(--state-layers-foreground-color-brand-fg-brand-primary);
+}
+
+/* Text container — fills remaining width */
+.ob-item__text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-05);
+}
+
+/* Item name — 16px SemiBold gray-900 */
+.ob-item__name {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semi-bold);
+  line-height: var(--line-height-default);
+  color: var(--state-layers-text-color-main-text-primary);
+}
+
+/* Serial / description — 14px Regular gray-500 */
+.ob-item__serial {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-default);
+  color: var(--state-layers-foreground-color-main-fg-tertiary);
+}
+
+/* Checkbox wrap — 48×48, centers the 18×18 box */
+.ob-item__checkbox-wrap {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 18×18 checkbox — border gray-400, cr 2 */
+.ob-item__checkbox {
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--state-layers-border-color-main-border-secondary);
+  border-radius: var(--radius-2xs);
+  background: var(--state-layers-background-color-main-bg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, border-color 0.15s;
+  flex-shrink: 0;
+}
+
+.ob-item--checked .ob-item__checkbox {
+  background: var(--state-layers-foreground-color-brand-fg-brand-primary);
+  border-color: var(--state-layers-foreground-color-brand-fg-brand-primary);
+}
+
+/* Checkmark SVG inherits white from CSS so no hardcoded stroke color is needed */
+.ob-item__checkbox svg {
+  color: var(--schemes-base-white);
+}
+
+/* ── Action footer ─────────────────────────────────────────────────── */
+/* Figma: 588×92, VERTICAL gap 16, padding-top 8 */
+
+.ob-modal__footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  padding-top: var(--spacing-2);
+}
+
+/* "Confirm and Continue" — 52px tall, full width, cr 8, 16px SemiBold */
+.ob-confirm-btn {
+  width: 100%;
+  height: 52px;
+  padding: var(--spacing-3) var(--spacing-5);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semi-bold);
+  font-family: inherit;
+  cursor: not-allowed;
+  /* Disabled state — gray-100 bg, gray-400 text */
+  background: var(--schemes-gray-light-gray-100);
+  color: var(--state-layers-border-color-main-border-secondary);
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+/* Active state — all items checked */
+.ob-confirm-btn--active {
+  background: var(--state-layers-foreground-color-brand-fg-brand-primary);
+  color: var(--schemes-base-white);
+  cursor: pointer;
+}
+
+.ob-confirm-btn--active:hover {
+  background: var(--state-layers-foreground-color-brand-fg-brand-primary-alt);
+}
+
+/* "A digital copy…" — 14px Regular gray-700 */
+.ob-confirm-note {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-default);
+  color: var(--state-layers-text-color-main-text-secondary);
+  text-align: center;
+}

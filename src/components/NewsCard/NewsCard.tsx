@@ -7,6 +7,8 @@ interface NewsCardProps {
   title: string
   body: string
   imageUrl?: string
+  date?: string
+  edited?: boolean
   /** Admin-only: show edit action */
   onEdit?: () => void
   /** Admin-only: show delete action */
@@ -19,6 +21,8 @@ export default function NewsCard({
   title,
   body,
   imageUrl,
+  date,
+  edited,
   onEdit,
   onDelete,
 }: NewsCardProps) {
@@ -49,10 +53,17 @@ export default function NewsCard({
           <div className="news-card__author-info">
             <span className="news-card__author-name">{author}</span>
             <span className="news-card__author-role">{role}</span>
+            {date && (
+              <span className="news-card__meta">
+                {date}
+                {edited && <span className="news-card__edited"> · Edited</span>}
+              </span>
+            )}
           </div>
         </div>
 
-        {/* 3-dot menu */}
+        {/* 3-dot menu — only rendered for admin (when at least one action exists) */}
+        {hasActions && (
         <div className="news-card__menu-wrap" ref={menuRef}>
           <button
             className="news-card__menu-btn"
@@ -66,7 +77,7 @@ export default function NewsCard({
             </svg>
           </button>
 
-          {menuOpen && hasActions && (
+          {menuOpen && (
             <div className="news-card__dropdown" role="menu">
               {onEdit && (
                 <button
@@ -107,12 +118,13 @@ export default function NewsCard({
             </div>
           )}
         </div>
+        )}
       </div>
 
       {/* ── Body: title + text + image ── */}
       <div className="news-card__body">
         <h2 className="news-card__title">{title}</h2>
-        <p className="news-card__text">{body}</p>
+        <div className="news-card__text" dangerouslySetInnerHTML={{ __html: body }} />
         {imageUrl && (
           <div className="news-card__image">
             <img src={imageUrl} alt="" />

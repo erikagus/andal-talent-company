@@ -8,6 +8,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  assetsInclude: ['**/*.riv'],
   resolve: {
     alias: {
       'design-system': path.resolve(__dirname, '../../design-system/src'),
