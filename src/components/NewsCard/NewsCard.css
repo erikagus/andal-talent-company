@@ -172,6 +172,16 @@
   color: var(--state-layers-text-color-main-text-secondary);
 }
 
+/* Images inside Tiptap rich-text content */
+.news-card__text img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  display: block;
+}
+
 /* Reset tiptap HTML output inside card */
 .news-card__text p {
   margin: 0 0 var(--spacing-2);
