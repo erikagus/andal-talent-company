@@ -5,6 +5,7 @@ import { Plus } from '@phosphor-icons/react'
 import { Navbar, NewsCard, BirthdayWidget } from '../../components'
 import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../lib/supabase'
+import { getRelativeTime } from '../../utils/relativeTime'
 import './HomePage.css'
 
 interface Post {
@@ -16,12 +17,6 @@ interface Post {
   author?: { name: string; job_position: string }
   created_at: string
   updated_at?: string | null
-}
-
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString('en-US', {
-    month: 'short', day: 'numeric', year: 'numeric',
-  })
 }
 
 export default function HomePage() {
@@ -71,7 +66,7 @@ export default function HomePage() {
                 title={post.title}
                 body={post.content}
                 imageUrl={post.image_url}
-                date={formatDate(post.created_at)}
+                date={getRelativeTime(post.created_at)}
                 edited={!!post.updated_at}
                 onEdit={isAdmin ? () => handleEdit(post.id) : undefined}
                 onDelete={isAdmin ? () => handleDelete(post.id) : undefined}
