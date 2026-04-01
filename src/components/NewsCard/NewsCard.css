@@ -174,12 +174,14 @@
 
 /* Images inside Tiptap rich-text content */
 .news-card__text img {
-  width: 100%;
   max-width: 100%;
+  max-height: 300px;
+  width: auto;
   height: auto;
-  object-fit: cover;
-  border-radius: var(--radius-sm);
+  object-fit: contain;
+  border-radius: 8px;
   display: block;
+  margin: 8px 0;
 }
 
 /* Reset tiptap HTML output inside card */
