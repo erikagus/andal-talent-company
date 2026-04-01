@@ -58,12 +58,30 @@ export default function CreateBulletinPage() {
     }
   }, [editor, post])
 
-  function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
+  async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     if (!file || !editor) return
-    const url = URL.createObjectURL(file)
-    editor.chain().focus().setImage({ src: url }).run()
     e.target.value = ''
+
+    // Insert a temporary blob URL so the user sees the image immediately
+    const blobUrl = URL.createObjectURL(file)
+    editor.chain().focus().setImage({ src: blobUrl }).run()
+
+    // Upload to Supabase Storage and replace the blob URL with the permanent public URL
+    const fileName = `post-${Date.now()}-${file.name}`
+    const { error } = await supabase.storage.from('Avatar').upload(fileName, file, { upsert: true })
+    if (error) {
+      console.error('[CreateBulletinPage] image upload error:', error)
+      return
+    }
+    const { data } = supabase.storage.from('Avatar').getPublicUrl(fileName)
+    const publicUrl = data.publicUrl
+    console.log('[CreateBulletinPage] image public URL:', publicUrl)
+
+    // Replace blob URL with the permanent Supabase Storage URL in the editor HTML
+    const currentHtml = editor.getHTML()
+    const updatedHtml = currentHtml.replace(blobUrl, publicUrl)
+    editor.commands.setContent(updatedHtml, false)
   }
 
   async function handlePublish() {
